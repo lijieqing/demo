@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.demo.mapper.ProductMapper">
+    <resultMap id="productResultMap" type="com.fengmi.demo.model.Product">
+        <id property="product_id" column="product_id" javaType="java.lang.Integer"/>
+        <result property="product_color" column="product_color" javaType="java.lang.Integer"/>
+        <result property="product_brand" column="product_brand" javaType="java.lang.Integer"/>
+        <association property="color" column="{color=product_color}" javaType="java.lang.String"
+                     select="findColor"/>
+        <association property="brand" column="{brand=product_brand}" javaType="java.lang.String"
+                     select="findBrand"/>
+        <association property="pid" column="{id=product_pid}" javaType="com.fengmi.demo.model.PID"
+                     select="findPID"/>
+        <association property="sku" column="{id=product_sku}" javaType="com.fengmi.demo.model.SKU"
+                     select="findSKU"/>
+        <association property="mn" column="{id=product_mn}" javaType="com.fengmi.demo.model.MN"
+                     select="findMN"/>
+        <association property="pd" column="{id=info_detail}" javaType="com.fengmi.demo.model.ProductDetail"
+                     select="findDetail"/>
+    </resultMap>
+    <select id="getAllProduct" resultMap="productResultMap">
+        select * from tb_product_info;
+    </select>
+    <select id="findColor" resultType="java.lang.String">
+        select c.color_name from tb_product_color as c where c.color_id=#{color}
+    </select>
+    <select id="findBrand" resultType="java.lang.String">
+        select c.brand_name from tb_product_brand as c where c.brand_id=#{brand}
+    </select>
+    <select id="findPID" resultType="com.fengmi.demo.model.PID">
+        select pid_id,pid_data,market_name,pid_create_date,pid_remark,pid_category,pid_sn,pid_brand,
+        (select c.category_name from tb_product_category as c where p.pid_category=c.category_id) as pid_category_desc
+        from tb_product_pid as p where p.pid_id=#{id}
+    </select>
+    <select id="findSKU" resultType="com.fengmi.demo.model.SKU">
+        select * from tb_product_sku as s where s.sku_id=#{id};
+    </select>
+    <select id="findMN" resultType="com.fengmi.demo.model.MN">
+    select m.mn_id as mn_id,
+       m.mn_type as mn_type,
+       m.mn_data as mn_data,
+       m.mn_name as mn_name,
+       m.mn_supplier as mn_supplier,
+       (select r.code_rule_desc
+        from tb_code_type as t,
+             tb_code_rule as r
+        where t.code_type_id = r.code_rule_type
+          and r.code_rule_type = 6
+          and r.code_rule_index = 0
+          and r.code_rule_data = m.mn_type)
+           as mn_type_desc
+    from tb_product_mn as m
+    where m.mn_id=#{id};
+    </select>
+    <select id="findDetail" resultType="com.fengmi.demo.model.ProductDetail">
+        select * from tb_product_info_detail as d where d.detail_id=#{id};
+    </select>
+    <insert id="insertProductDetail" parameterType="com.fengmi.demo.model.ProductDetail" useGeneratedKeys="true"
+            keyProperty="detail_id">
+        insert into
+        tb_product_info_detail
+        values
+        (null ,#{detail_uiid},#{detail_69},#{detail_proj_sn},#{detail_3c},#{detail_specification},#{detail_pn},#{detail_mi},#{detail_cooperation},#{detail_color});
+    </insert>
+    <insert id="insertProduct" parameterType="com.fengmi.demo.model.Product" useGeneratedKeys="true"
+            keyProperty="product_id">
+        insert into
+        tb_product_info
+        values
+        (null ,#{product_sku},#{product_pid},#{product_color},#{product_brand},#{info_detail},#{product_mn});
+    </insert>
+    <select id="findAllBrand" resultType="com.fengmi.demo.model.Brand">
+        select * from tb_product_brand;
+    </select>
+
+    <select id="findAllColor" resultType="com.fengmi.demo.model.Color">
+        select * from tb_product_color;
+    </select>
+</mapper>

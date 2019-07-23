@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Product Detail</title>
+    <link th:rel="stylesheet" type="text/css" th:href="@{/local/layui/css/layui.all.js}"
+          href="/local/layui/css/layui.css"/>
+</head>
+
+<body th:class="layui-layout-body">
+<style th:src="@{/local/layui/css/layui.css}" th:inline="javascript" type="text/css"
+       src="/local/layui/css/layui.css">
+
+</style>
+<div style="float: left;width: 20%">
+    <form th:class="layui-form" th:action="@{/addProductDetail}" th:object="${detail}" th:method="post">
+        <div th:class="layui-form-item">
+            <label th:class="layui-form-label" th:for="detail_color">颜色</label>
+            <div th:class="layui-input-block">
+                <select th:field="*{detail_color}">
+                    <option th:value="2">请选择颜色，默认黑色</option>
+                    <option th:each="color,userStat:${color_list}" th:value="${color.color_id}"
+                            th:text="${color.color_name}"></option>
+                </select>
+            </div>
+        </div>
+        <div th:class="layui-form-item">
+            <label th:class="layui-form-label" th:for="detail_69">69码</label>
+            <div th:class="layui-input-block">
+                <input th:type="text" th:id="detail_69" th:field="*{detail_69}" placeholder="请输入69码"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div th:class="layui-form-item">
+            <label th:class="layui-form-label" th:for="detail_proj_sn">光峰料号</label>
+            <div th:class="layui-input-block">
+                <input th:type="text" th:id="detail_proj_sn" th:field="*{detail_proj_sn}" placeholder="光峰料号"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div th:class="layui-form-item">
+            <label th:class="layui-form-label" th:for="detail_specification">产品规格</label>
+            <div th:class="layui-input-block">
+                <input th:type="text" th:id="detail_specification" th:field="*{detail_specification}"
+                       placeholder="产品规格"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div th:class="layui-form-item">
+            <label th:class="layui-form-label" th:for="detail_mi">小米型号</label>
+            <div th:class="layui-input-block">
+                <input th:type="text" th:id="detail_specification" th:field="*{detail_mi}" placeholder="没有可不填"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div th:class="layui-form-item">
+            <label th:class="layui-form-label" th:for="detail_cooperation">合作模式</label>
+            <div th:class="layui-input-block">
+                <input th:type="text" th:id="detail_cooperation" th:field="*{detail_cooperation}"
+                       placeholder="自有、米家"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div th:class="layui-form-item">
+            <div th:class="layui-input-block">
+                <input th:type="submit" class="layui-btn-normal"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div style="float: left;width: 80%">
+    <table th:border="1">
+        <tr>
+            <td>PID</td>
+            <td>市场名称</td>
+            <td>SKU</td>
+            <td>SKU 名称</td>
+            <td>MN</td>
+            <td>供应商</td>
+            <td>销售地区</td>
+        </tr>
+        <tr>
+            <td th:width="180" th:text="${product.pid.pid_data}"></td>
+            <td th:width="180" th:text="${product.pid.market_name}"></td>
+            <td th:width="180" th:text="${product.sku.sku_data}"></td>
+            <td th:width="180" th:text="${product.sku.sku_name}"></td>
+            <td th:width="180" th:text="${product.mn.mn_data}"></td>
+            <td th:width="180" th:text="${product.mn.mn_supplier}"></td>
+            <td th:width="180" th:text="${product.sku.sku_country}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+
+
+</html>

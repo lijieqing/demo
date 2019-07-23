@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.demo.mapper.SKUMapper">
+    <select id="getAllSKUs"
+            resultType="com.fengmi.demo.model.SKU">
+        select * from tb_product_sku
+    </select>
+    <select id="querySKUByData"
+            parameterType="java.lang.String"
+            resultType="com.fengmi.demo.model.SKU">
+        select * from tb_product_sku as s where s.sku_data like #{data}
+    </select>
+    <select id="querySKUById"
+            parameterType="int"
+            resultType="com.fengmi.demo.model.SKU">
+        select * from tb_product_sku as s where s.sku_id=#{id}
+    </select>
+    <select id="querySKUByName"
+            parameterType="java.lang.String"
+            resultType="com.fengmi.demo.model.SKU">
+        select * from tb_product_sku as s where s.sku_name like #{name}
+    </select>
+    <insert id="insertSKU" useGeneratedKeys="true" keyProperty="sku_id" parameterType="com.fengmi.demo.model.SKU">
+        insert into tb_product_sku values (
+        null ,#{sku_data},#{sku_name},#{sku_country}
+        )
+    </insert>
+
+    <update id="updateSKU" useGeneratedKeys="true" keyProperty="sku_name" parameterType="com.fengmi.demo.model.SKU">
+        update tb_product_sku set sku_name= #{sku_name}
+         where sku_id=#{sku_id}
+    </update>
+    <delete id="deleteSKU" parameterType="int" flushCache="true">
+        delete from tb_product_sku where sku_id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>DEMO</title>
+</head>
+<body>
+<div id="info_show">
+    <div>
+        <h3>SKU 信息</h3>
+        <table border="1">
+            <tr>
+                <td>No.</td>
+                <td>SKU</td>
+                <td>SKU 名称</td>
+                <td colspan="2">操作</td>
+            </tr>
+            <tr th:each="sku,memberStat:${sku_list}">
+                <td th:text="${memberStat.index+1}" style="width: 180px"></td>
+                <td th:text="${sku.sku_data} " style="width: 180px"></td>
+                <td th:text="${sku.sku_name}" style="width: 400px"></td>
+                <td>
+                    <a class="window-button" th:href="@{/toSKUEdit(id=${sku.sku_id})}">edit</a>
+                </td>
+                <td>
+                    <a class="window-button" th:href="@{/deleteSKU(id=${sku.sku_id})}">delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <a th:href="@{/toSKUAdd}" class="button">add</a>
+
+</div>
+
+
+</body>
+</html>

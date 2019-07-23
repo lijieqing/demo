@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MN Edit</title>
+</head>
+<body>
+<form th:action="@{/mnEdit}" method="post" th:object="${mn}">
+    <input type="hidden" th:field="*{mn_id}" th:value="${mn.mn_id}">
+    <input type="hidden" th:field="*{mn_type}" th:value="${mn.mn_type}">
+    <div class="form-group">
+        <label for="mn_data" class="col-sm-2 control-label">MN</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="mn_data"
+                   id="mn_data" th:value="${mn.mn_data}" placeholder="MN"/>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+        <label for="mn_name" class="col-sm-2 control-label">MN市场名称</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="mn_name"
+                   id="mn_name" th:value="${mn.mn_name}" placeholder="MN 名称"/>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+        <label for="mn_supplier" class="col-sm-2 control-label">供应商</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="mn_supplier"
+                   id="mn_supplier" th:value="${mn.mn_supplier}" placeholder="MN 供应商"/>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Submit" class="btn btn-info"/>
+        </div>
+    </div>
+</form>
+
+</body>
+
+</html>

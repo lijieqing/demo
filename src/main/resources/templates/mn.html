@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MN</title>
+</head>
+<body>
+<div style="float: inside">
+    <h3>MN 信息</h3>
+    <table th:border="1">
+        <tr>
+            <td>No.</td>
+            <td>MN</td>
+            <td>名称</td>
+            <td>分类</td>
+            <td>供应商</td>
+            <td colspan="2">操作</td>
+        </tr>
+        <tr th:each="mn,memberStat:${mn_list}">
+            <td th:text="${memberStat.index+1}" width="180"></td>
+            <td th:text="${mn.mn_data} " width="180"></td>
+            <td th:text="${mn.mn_name}" width="180"></td>
+            <td th:text="${mn.mn_type_desc}" width="180"></td>
+            <td th:text="${mn.mn_supplier}" width="200"></td>
+            <td>
+                <a class="window-button" th:href="@{/toMNEdit(id=${mn.mn_id})}">edit</a>
+            </td>
+            <td>
+                <a class="window-button" th:href="@{/toMNDelete(id=${mn.mn_id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+    <a th:href="@{/toMNAdd}" class="button">add</a>
+</div>
+</body>
+</html>

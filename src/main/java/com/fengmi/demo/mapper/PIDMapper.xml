@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.demo.mapper.PIDMapper">
+
+    <select id="getAllPIDs" resultType="com.fengmi.demo.model.PID">
+        select pid_id,pid_data,market_name,pid_create_date,pid_remark,pid_category,pid_sn,pid_brand,
+        (select c.category_name from tb_product_category as c where p.pid_category=c.category_id) as pid_category_desc
+        from tb_product_pid as p
+    </select>
+    <select id="queryPIDByData" parameterType="java.lang.String" resultType="com.fengmi.demo.model.PID">
+        select pid_id,pid_data,market_name,pid_create_date,pid_remark,pid_category,pid_sn,pid_brand,
+        (select c.category_name from tb_product_category as c where p.pid_category=c.category_id) as pid_category_desc
+        from tb_product_pid as p where p.pid_data like #{data}
+    </select>
+    <select id="queryPIDByID" parameterType="java.lang.Integer" resultType="com.fengmi.demo.model.PID">
+        select pid_id,pid_data,market_name,pid_create_date,pid_remark,pid_category,pid_sn,pid_brand,
+        (select c.category_name from tb_product_category as c where p.pid_category=c.category_id) as pid_category_desc
+        from tb_product_pid as p where p.pid_id=#{id}
+    </select>
+    <update id="updatePID" parameterType="com.fengmi.demo.model.PID">
+        update tb_product_pid as p set
+        p.`market_name`=#{market_name},
+        p.`pid_remark`=#{pid_remark},
+        p.`pid_create_date`=#{pid_create_date},
+        p.`pid_category`=#{pid_category},
+        p.`pid_sn`=#{pid_sn},
+        p.`pid_brand`=#{pid_brand}
+        where p.`pid_id`=#{pid_id}
+    </update>
+    <insert id="insertPID" parameterType="com.fengmi.demo.model.PID" useGeneratedKeys="true" keyProperty="pid_id">
+        insert into tb_product_pid values (null,#{pid_data},#{market_name},#{pid_category},#{pid_create_date},#{pid_remark},#{pid_sn},#{pid_brand})
+    </insert>
+
+    <select id="getAllCategory" resultType="com.fengmi.demo.model.Category">
+        select * from tb_product_category
+    </select>
+
+    <delete id="deletePID" parameterType="int">
+        delete from tb_product_pid where pid_id=#{id}
+    </delete>
+
+</mapper>

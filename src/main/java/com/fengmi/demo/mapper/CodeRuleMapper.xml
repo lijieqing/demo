@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.demo.mapper.CodeRuleMapper">
+    <select id="queryCodeRule"
+            parameterType="java.lang.String"
+            resultType="com.fengmi.demo.model.CodeRule">
+        select
+            r.code_rule_index  as code_rule_index,
+            r.code_rule_len    as code_rule_len,
+            t.code_total_len   as code_total_len,
+            r.code_rule_data   as code_rule_data,
+            r.code_rule_desc   as code_rule_desc,
+            t.code_simple_name as code_simple_name,
+            t.code_full_name   as code_full_name,
+            t.code_desc as code_desc
+        from
+            tb_code_rule as r, tb_code_type as t
+        where
+            r.code_rule_type = (select t.code_type_id
+                                from tb_code_type as t
+                                where t.code_simple_name = #{codeType})
+        and
+            t.code_type_id = r.code_rule_type;
+    </select>
+</mapper>

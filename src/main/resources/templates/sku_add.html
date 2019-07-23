@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SKU ADD</title>
+</head>
+<style type="text/css">
+    #popDiv {
+
+        /*就是这个position:fixed起作用，生成相对定位的元素，相对于其正常位置进行定位。*/
+        position: fixed;
+
+        /*这里都是对外边距进行设置*/
+        margin: auto;
+        right: 70%;
+        bottom: 50%;
+
+        /*设置div的宽和高*/
+        width: 400px;
+        height: 280px;
+
+        /*设置超出范围后，就隐藏超出的部分*/
+        overflow: hidden;
+
+        /*设置边框*/
+        border: 2px solid #AEBBCA;
+
+        /*设置背景颜色*/
+        background-color: #EEF1F8;
+
+        /*设置鼠标的样式*/
+        cursor: move;
+    }
+</style>
+<body>
+<table th:each="map :${code_rule}" th:border="1" style="margin: auto">
+    <tr>
+        <td style="width: 150px">编码索引</td>
+        <td style="width: 150px">编码元素</td>
+        <td style="width: 150px">编码描述</td>
+    </tr>
+    <tr th:each="list :${map.value}">
+        <td th:text="${map.key}" style="width: 150px">
+        </td>
+        <td>
+            <button th:value="${list.codeData}" style="width: 150px"
+                    th:text="${list.codeData}"
+                    type="button" class="btn btn-danger btn-sm"
+                    th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])">
+            </button>
+        </td>
+        <td th:text="${list.codeDesc}" style="width: 150px"></td>
+    </tr>
+</table>
+<div th:id="popDiv">
+    <label for="id_generate">SKU:</label>
+    <label id="id_generate" style="font-size: 30px" th:text="XXXXXXXXXXXXX"></label>
+    <form th:action="@{/toProductMNAdd}" method="post" th:object="${sku}">
+        <input type="hidden" th:id="sku_data" th:field="${sku.sku_data}"/><br/>
+        <input type="hidden" th:id="sku_country" th:field="${sku.sku_country}"/><br/>
+        SKU名称：<input type="text" th:id="sku_name" th:value="SKU名称" th:field="${sku.sku_name}"/><br/>
+        <input type="submit" th:value="生成SKU"/>
+    </form>
+</div>
+</body>
+
+<script th:inline="javascript">
+    function codeDataClick(index, data) {
+        var lab = document.getElementById("id_generate");
+        var code = lab.innerText;
+        switch (index) {
+            case 0:
+                code = data + code.substring(1, 13);
+                break;
+            case 1:
+                code = code.substring(0, 1) + data + code.substring(3, 13);
+                break;
+            case 2:
+                code = code.substring(0, 3) + data + code.substring(5, 13);
+                break;
+            case 3:
+                code = code.substring(0, 5) + data + code.substring(6, 13);
+                break;
+            case 4:
+                code = code.substring(0, 6) + data + code.substring(7, 13);
+                break;
+            case 5:
+                code = code.substring(0, 7) + data + code.substring(10, 13);
+                break;
+            case 6:
+                code = code.substring(0, 10) + data + code.substring(11, 13);
+                break;
+            case 7:
+                code = code.substring(0, 11) + data;
+                document.getElementById("sku_country").valueOf().value = data;
+                break;
+        }
+        //alert(code);
+        lab.innerText = code;
+        document.getElementById("sku_data").valueOf().value = code;
+    }
+</script>
+</html>

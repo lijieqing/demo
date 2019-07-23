@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.demo.mapper.MNMapper">
+    <select id="getAllMN" resultType="com.fengmi.demo.model.MN">
+    select m.mn_id as mn_id,
+       m.mn_type as mn_type,
+       m.mn_data as mn_data,
+       m.mn_name as mn_name,
+       m.mn_supplier as mn_supplier,
+       (select r.code_rule_desc
+        from tb_code_type as t,
+             tb_code_rule as r
+        where t.code_type_id = r.code_rule_type
+          and r.code_rule_type = 6
+          and r.code_rule_index = 0
+          and r.code_rule_data = m.mn_type)
+           as mn_type_desc
+    from tb_product_mn as m;
+    </select>
+    <select id="queryMNByID" parameterType="int" resultType="com.fengmi.demo.model.MN">
+    select m.mn_id as mn_id,
+       m.mn_type as mn_type,
+       m.mn_data as mn_data,
+       m.mn_name as mn_name,
+       m.mn_supplier as mn_supplier,
+       (select r.code_rule_desc
+        from tb_code_type as t,
+             tb_code_rule as r
+        where t.code_type_id = r.code_rule_type
+          and r.code_rule_type = 6
+          and r.code_rule_index = 0
+          and r.code_rule_data = m.mn_type)
+           as mn_type_desc
+    from tb_product_mn as m
+    where m.mn_id=#{id};
+    </select>
+    <select id="queryMNByData" parameterType="java.lang.String" resultType="com.fengmi.demo.model.MN">
+        select * from tb_product_mn as m where m.mn_data like #{data};
+    </select>
+    <select id="queryMNByName" parameterType="java.lang.String" resultType="com.fengmi.demo.model.MN">
+        select * from tb_product_mn as m where m.mn_name like #{name};
+    </select>
+    <insert id="insertMN" parameterType="com.fengmi.demo.model.MN" useGeneratedKeys="true" keyProperty="mn_id">
+        insert into tb_product_mn values (null ,#{mn_type},#{mn_data},#{mn_name},#{mn_supplier});
+    </insert>
+    <delete id="deleteMN" parameterType="int">
+        delete from tb_product_mn where mn_id=#{id};
+    </delete>
+    <update id="updateMN" parameterType="com.fengmi.demo.model.MN">
+        update tb_product_mn set mn_name=#{mn_name},mn_data=#{mn_data},mn_type=#{mn_type},mn_supplier=#{mn_supplier} where mn_id=#{mn_id};
+    </update>
+</mapper>

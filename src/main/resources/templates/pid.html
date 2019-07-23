@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PID</title>
+</head>
+<body>
+<div style="float: inside">
+    <h3>PID 信息</h3>
+    <table th:border="1">
+        <tr>
+            <td>No.</td>
+            <td>PID</td>
+            <td>市场名称</td>
+            <td>立项年份</td>
+            <td>分类</td>
+            <td>首台序列号</td>
+            <td>备注</td>
+            <td colspan="2">操作</td>
+        </tr>
+        <tr th:each="pid,memberStat:${pid_list}">
+            <td th:text="${memberStat.index+1}" width="180"></td>
+            <td th:text="${pid.pid_data} " width="180"></td>
+            <td th:text="${pid.market_name}" width="180"></td>
+            <td th:text="${pid.pid_create_date}" width="180"></td>
+            <td th:text="${pid.pid_category_desc}" width="180"></td>
+            <td th:text="${pid.pid_sn}" width="180"></td>
+            <td th:text="${pid.pid_remark}" width="180"></td>
+            <td>
+                <a class="window-button" th:href="@{/toPIDEdit(id=${pid.pid_id})}">edit</a>
+            </td>
+            <td>
+                <a class="window-button" th:href="@{/toPIDDelete(id=${pid.pid_id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+    <a th:href="@{/toPIDAdd}" class="button">add</a>
+</div>
+</body>
+</html>

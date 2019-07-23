@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MN add</title>
+</head>
+<style type="text/css">
+    #popDiv {
+
+        /*就是这个position:fixed起作用，生成相对定位的元素，相对于其正常位置进行定位。*/
+        position: fixed;
+
+        /*这里都是对外边距进行设置*/
+        margin: auto;
+        right: 70%;
+        bottom: 50%;
+
+        /*设置div的宽和高*/
+        width: 400px;
+        height: 280px;
+
+        /*设置超出范围后，就隐藏超出的部分*/
+        overflow: hidden;
+
+        /*设置边框*/
+        border: 2px solid #AEBBCA;
+
+        /*设置背景颜色*/
+        background-color: #EEF1F8;
+
+        /*设置鼠标的样式*/
+        cursor: move;
+    }
+</style>
+<body>
+<div style="text-align: center;align-self: center;">
+    <table th:each="map :${code_rule}" th:border="1" style="margin: auto">
+        <tr>
+            <td style="width: 150px">编码索引</td>
+            <td style="width: 150px">编码元素</td>
+            <td style="width: 150px">编码描述</td>
+        </tr>
+        <tr th:each="list :${map.value}">
+            <td th:text="${map.key}" style="width: 150px"></td>
+            <td th:unless="${#strings.contains(list.codeData,'-')}">
+                <button th:value="${list.codeData}" style="width: 150px"
+                        th:text="${list.codeData}"
+                        type="button" class="btn btn-danger btn-sm"
+                        th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])">
+                </button>
+            </td>
+            <td th:if="${#strings.contains(list.codeData,'-')}">
+                <input th:value="${list.codeData}" th:name="code_num"/>
+                <button th:text="确认"
+                        th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])"></button>
+            </td>
+
+            <td th:text="${list.codeDesc}" style="width: 150px"></td>
+        </tr>
+    </table>
+    <br/><br/>
+</div>
+<div th:id="popDiv">
+    <label for="id_generate">MN:</label>
+    <label id="id_generate" style="font-size: 30px" th:text="--------------------"></label>
+    <form th:action="@{/toProductDetail}" method="post" th:object="${mn}">
+        <input type="hidden" th:id="mn_data" th:field="${mn.mn_data}"/>
+        <input type="hidden" th:id="mn_type" th:field="${mn.mn_type}"/><br/>
+        MN名称：<input type="text" th:id="mn_name" th:field="${mn.mn_name}"/><br/>
+        供应商名称：<input type="text" th:id="mn_supplier" th:field="${mn.mn_supplier}"/>
+        <input type="submit" th:value="生成MN"/>
+    </form>
+</div>
+</body>
+
+<script th:inline="javascript">
+    function codeDataClick(index, data) {
+        var lab = document.getElementById("id_generate");
+        var numlist = document.getElementsByName("code_num");
+        var code = lab.innerText;
+        var digitRE = /^[0-9]*$/g;
+        var RE = /^[0-9a-zA-Z]*$/g;
+        var monthRE = /^[0-9a-cA-C]*$/g;
+        var num = "";
+        switch (index) {
+            case 0:
+                code = data + code.substring(1, 13);
+                document.getElementById("mn_type").valueOf().value = data;
+                break;
+            case 1:
+                code = code.substring(0, 1) + data + code.substring(2, 17);
+                break;
+            case 2:
+                code = code.substring(0, 2) + data + code.substring(3, 17);
+                break;
+            case 3:
+                num = numlist.item(0).valueOf().value;
+                if (num.length == 1 && digitRE.test(num)) {
+                    code = code.substring(0, 3) + num + code.substring(4, 17);
+                } else {
+                    alert("error" + num)
+                }
+                break;
+            case 4:
+                num = numlist.item(1).valueOf().value;
+                if (num.length == 1 && monthRE.test(num)) {
+                    code = code.substring(0, 4) + num + code.substring(5, 17);
+                } else {
+                    alert("error")
+                }
+                break;
+            case 5:
+                num = numlist.item(2).valueOf().value;
+                if (num.length == 2 && digitRE.test(num)) {
+                    code = code.substring(0, 5) + num + code.substring(7, 17);
+                } else {
+                    alert("error")
+                }
+                break;
+            case 6:
+                num = numlist.item(3).valueOf().value;
+                if (num.length == 1 && RE.test(num)) {
+                    code = code.substring(0, 7) + num + code.substring(8, 17);
+                } else {
+                    alert("error")
+                }
+                break;
+            case 7:
+                code = code.substring(0, 8) + data + code.substring(9, 17);
+                break;
+            case 8:
+                code = code.substring(0, 9) + data + code.substring(10, 17);
+                break;
+            case 9:
+                num = numlist.item(4).valueOf().value;
+                if (num.length == 4 && digitRE.test(num)) {
+                    code = code.substring(0, 10) + num + code.substring(14, 17);
+                } else {
+                    alert("error")
+                }
+                break;
+            case 10:
+                num = numlist.item(5).valueOf().value;
+                if (num.length == 3 && digitRE.test(num)) {
+                    code = code.substring(0, 14) + num;
+                } else {
+                    alert("error")
+                }
+                break;
+        }
+        lab.innerText = code;
+        document.getElementById("mn_data").valueOf().value = code;
+    }
+</script>
+</html>
