@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>MN add</title>
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
 </head>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript" th:inline="javascript">
+</script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    });
+</script>
 <style type="text/css">
     #popDiv {
 
@@ -34,71 +42,121 @@
 </style>
 <body>
 <div style="text-align: center;align-self: center;">
-    <table th:each="map :${code_rule}" th:border="1" style="margin: auto">
+    <table class="layui-table" th:border="1">
+        <thead>
         <tr>
             <td style="width: 150px">编码索引</td>
             <td style="width: 150px">编码元素</td>
-            <td style="width: 150px">编码描述</td>
         </tr>
-        <tr th:each="list :${map.value}">
+        </thead>
+        <tbody>
+        <tr th:each="map :${code_rule}">
             <td th:text="${map.key}" style="width: 150px"></td>
-            <td th:unless="${#strings.contains(list.codeData,'-')}">
-                <button th:value="${list.codeData}" style="width: 150px"
-                        th:text="${list.codeData}"
-                        type="button" class="btn btn-danger btn-sm"
-                        th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])">
-                </button>
+            <td th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                <select th:name="select_code" th:onchange="javascript:onCodeSelected([[${map.key}]])">
+                    <option>--</option>
+                    <option th:each="list :${map.value}" th:value="${list.codeData}"
+                            th:text="${list.codeDesc}"></option>
+                </select>
             </td>
-            <td th:if="${#strings.contains(list.codeData,'-')}">
-                <input th:value="${list.codeData}" th:name="code_num"/>
-                <button th:text="确认"
-                        th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])"></button>
+            <td th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
+                       th:value="${map.getValue().get(0).codeData}"
+                       th:text="${map.getValue().get(0).codeDesc}">
             </td>
-
-            <td th:text="${list.codeDesc}" style="width: 150px"></td>
         </tr>
+        </tbody>
     </table>
-    <br/><br/>
 </div>
-<div th:id="popDiv">
-    <label for="id_generate">MN:</label>
-    <label id="id_generate" style="font-size: 30px" th:text="--------------------"></label>
-    <form th:action="@{/toProductDetail}" method="post" th:object="${mn}">
-        <input type="hidden" th:id="mn_data" th:field="${mn.mn_data}"/>
-        <input type="hidden" th:id="mn_type" th:field="${mn.mn_type}"/><br/>
-        MN名称：<input type="text" th:id="mn_name" th:field="${mn.mn_name}"/><br/>
-        供应商名称：<input type="text" th:id="mn_supplier" th:field="${mn.mn_supplier}"/>
-        <input type="submit" th:value="生成MN"/>
-    </form>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md5 layui-col-md-offset5">
+        <label for="id_generate">MN:</label>
+        <label id="id_generate" style="font-size: 30px" th:text="xxxxxxxxxxxxxxxxx"></label>
+    </div>
+</div>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md6 layui-col-md-offset4">
+        <form class="layui-form" th:id="pidForm" th:action="@{/toProductDetail}" method="post" th:object="${mn}">
+            <input type="hidden" th:id="mn_data" th:field="${mn.mn_data}"/>
+            <input type="hidden" th:id="mn_type" th:field="${mn.mn_type}"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">MN名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:id="mn_name" required placeholder="MN名称" autocomplete="off"
+                           class="layui-input" th:value="SKU名称" th:field="${mn.mn_name}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">MN名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:id="mn_supplier" required placeholder="供应商名称" autocomplete="off"
+                           class="layui-input" th:value="供应商名称" th:field="${mn.mn_supplier}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="submit" class="layui-btn"/>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 
 <script th:inline="javascript">
-    function codeDataClick(index, data) {
+    function onCodeSelected(index) {
         var lab = document.getElementById("id_generate");
-        var numlist = document.getElementsByName("code_num");
         var code = lab.innerText;
-        var digitRE = /^[0-9]*$/g;
-        var RE = /^[0-9a-zA-Z]*$/g;
-        var monthRE = /^[0-9a-cA-C]*$/g;
-        var num = "";
+
+        var i;
+        var data;
         switch (index) {
             case 0:
+                i = document.getElementsByName("select_code")[0].selectedIndex;
+                data = document.getElementsByName("select_code")[0][i].value;
                 code = data + code.substring(1, 13);
                 document.getElementById("mn_type").valueOf().value = data;
                 break;
             case 1:
+                i = document.getElementsByName("select_code")[1].selectedIndex;
+                data = document.getElementsByName("select_code")[1][i].value;
                 code = code.substring(0, 1) + data + code.substring(2, 17);
                 break;
             case 2:
+                i = document.getElementsByName("select_code")[2].selectedIndex;
+                data = document.getElementsByName("select_code")[2][i].value;
                 code = code.substring(0, 2) + data + code.substring(3, 17);
                 break;
+            case 7:
+                i = document.getElementsByName("select_code")[3].selectedIndex;
+                data = document.getElementsByName("select_code")[3][i].value;
+                code = code.substring(0, 8) + data + code.substring(9, 17);
+                break;
+            case 8:
+                i = document.getElementsByName("select_code")[4].selectedIndex;
+                data = document.getElementsByName("select_code")[4][i].value;
+                code = code.substring(0, 9) + data + code.substring(10, 17);
+                break;
+        }
+        lab.innerText = code;
+        document.getElementById("mn_data").valueOf().value = code;
+    }
+
+    function onCodeInput(index) {
+        var lab = document.getElementById("id_generate");
+        var code = lab.innerText;
+        var numlist = document.getElementsByName("input_code");
+        var digitRE = /^[0-9]*$/g;
+        var RE = /^[0-9a-zA-Z]*$/g;
+        var monthRE = /^[0-9a-cA-C]*$/g;
+        var num;
+        switch (index) {
             case 3:
                 num = numlist.item(0).valueOf().value;
                 if (num.length == 1 && digitRE.test(num)) {
                     code = code.substring(0, 3) + num + code.substring(4, 17);
                 } else {
-                    alert("error" + num)
+                    // alert("error" + num)
                 }
                 break;
             case 4:
@@ -106,7 +164,7 @@
                 if (num.length == 1 && monthRE.test(num)) {
                     code = code.substring(0, 4) + num + code.substring(5, 17);
                 } else {
-                    alert("error")
+                    // alert("error")
                 }
                 break;
             case 5:
@@ -114,7 +172,7 @@
                 if (num.length == 2 && digitRE.test(num)) {
                     code = code.substring(0, 5) + num + code.substring(7, 17);
                 } else {
-                    alert("error")
+                    // alert("error")
                 }
                 break;
             case 6:
@@ -122,21 +180,15 @@
                 if (num.length == 1 && RE.test(num)) {
                     code = code.substring(0, 7) + num + code.substring(8, 17);
                 } else {
-                    alert("error")
+                    // alert("error")
                 }
-                break;
-            case 7:
-                code = code.substring(0, 8) + data + code.substring(9, 17);
-                break;
-            case 8:
-                code = code.substring(0, 9) + data + code.substring(10, 17);
                 break;
             case 9:
                 num = numlist.item(4).valueOf().value;
                 if (num.length == 4 && digitRE.test(num)) {
                     code = code.substring(0, 10) + num + code.substring(14, 17);
                 } else {
-                    alert("error")
+                    // alert("error")
                 }
                 break;
             case 10:
@@ -144,7 +196,7 @@
                 if (num.length == 3 && digitRE.test(num)) {
                     code = code.substring(0, 14) + num;
                 } else {
-                    alert("error")
+                    // alert("error")
                 }
                 break;
         }

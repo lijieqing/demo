@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>SKU ADD</title>
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
 </head>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript" th:inline="javascript">
+</script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    });
+</script>
 <style type="text/css">
     #popDiv {
 
@@ -33,41 +41,68 @@
     }
 </style>
 <body>
-<table th:each="map :${code_rule}" th:border="1" style="margin: auto">
-    <tr>
-        <td style="width: 150px">编码索引</td>
-        <td style="width: 150px">编码元素</td>
-        <td style="width: 150px">编码描述</td>
-    </tr>
-    <tr th:each="list :${map.value}">
-        <td th:text="${map.key}" style="width: 150px">
-        </td>
-        <td>
-            <button th:value="${list.codeData}" style="width: 150px"
-                    th:text="${list.codeData}"
-                    type="button" class="btn btn-danger btn-sm"
-                    th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])">
-            </button>
-        </td>
-        <td th:text="${list.codeDesc}" style="width: 150px"></td>
-    </tr>
-</table>
-<div th:id="popDiv">
-    <label for="id_generate">SKU:</label>
-    <label id="id_generate" style="font-size: 30px" th:text="XXXXXXXXXXXXX"></label>
-    <form th:action="@{/toProductMNAdd}" method="post" th:object="${sku}">
-        <input type="hidden" th:id="sku_data" th:field="${sku.sku_data}"/><br/>
-        <input type="hidden" th:id="sku_country" th:field="${sku.sku_country}"/><br/>
-        SKU名称：<input type="text" th:id="sku_name" th:value="SKU名称" th:field="${sku.sku_name}"/><br/>
-        <input type="submit" th:value="生成SKU"/>
-    </form>
+<div style="text-align: center;align-self: center;">
+    <table class="layui-table" th:border="1">
+        <thead>
+        <tr>
+            <td style="width: 150px">编码索引</td>
+            <td style="width: 150px">编码元素</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="map :${code_rule}">
+            <td th:text="${map.key}" style="width: 150px"></td>
+            <td th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                <select th:name="select_code" th:onchange="javascript:onCodeSelected([[${map.key}]])">
+                    <option>--</option>
+                    <option th:each="list :${map.value}" th:value="${list.codeData}"
+                            th:text="${list.codeDesc}"></option>
+                </select>
+            </td>
+            <td th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
+                       th:value="${map.getValue().get(0).codeData}"
+                       th:text="${map.getValue().get(0).codeDesc}">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md5 layui-col-md-offset5">
+        <label for="id_generate">SKU:</label>
+        <label id="id_generate" style="font-size: 30px" th:text="XXXXXXXXXXXXX"></label>
+    </div>
+</div>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md6 layui-col-md-offset4">
+        <form class="layui-form" th:id="pidForm" th:action="@{/toProductMNAdd}" method="post" th:object="${sku}">
+            <input type="hidden" th:id="sku_data" th:field="${sku.sku_data}"/><br/>
+            <input type="hidden" th:id="sku_country" th:field="${sku.sku_country}"/><br/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">SKU名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:id="sku_name" required placeholder="SKU名称" autocomplete="off"
+                           class="layui-input" th:value="SKU名称" th:field="${sku.sku_name}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="submit" class="layui-btn"/>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 
 <script th:inline="javascript">
-    function codeDataClick(index, data) {
+    function onCodeSelected(index) {
         var lab = document.getElementById("id_generate");
         var code = lab.innerText;
+
+        var i = document.getElementsByName("select_code")[index].selectedIndex;
+        var data = document.getElementsByName("select_code")[index][i].value;
         switch (index) {
             case 0:
                 code = data + code.substring(1, 13);

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PID ADD</title>
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
 </head>
 <style type="text/css">
     #popDiv {
@@ -33,69 +34,111 @@
     }
 </style>
 <body>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript" th:inline="javascript">
+</script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    });
+</script>
 <div style="text-align: center;align-self: center;">
-    <table th:each="map :${code_rule}" th:border="1" style="margin: auto">
+    <table class="layui-table" th:border="1">
+        <thead>
         <tr>
             <td style="width: 150px">编码索引</td>
             <td style="width: 150px">编码元素</td>
-            <td style="width: 150px">编码描述</td>
         </tr>
-        <tr th:each="list :${map.value}">
+        </thead>
+        <tbody>
+        <tr th:each="map :${code_rule}">
             <td th:text="${map.key}" style="width: 150px"></td>
-            <td th:if=${list.codeData!='01-99'}>
-                <button th:value="${list.codeData}" style="width: 150px"
-                        th:text="${list.codeData}"
-                        type="button" class="btn btn-danger btn-sm"
-                        th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])">
-                </button>
+            <td th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                <select th:name="select_code" th:onchange="javascript:onCodeSelected([[${map.key}]])">
+                    <option>--</option>
+                    <option th:each="list :${map.value}" th:value="${list.codeData}"
+                            th:text="${list.codeDesc}"></option>
+                </select>
             </td>
-            <td th:if=${list.codeData=='01-99'}>
-                <input th:value="99" type="number" th:id="pid_num"/>
-                <button th:text="确认"
-                        th:onclick="javascript:codeDataClick([[${map.key}]],[[${list.codeData}]])"></button>
+            <td th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
+                       th:value="${map.getValue().get(0).codeData}"
+                       th:text="${map.getValue().get(0).codeDesc}">
             </td>
-
-            <td th:text="${list.codeDesc}" style="width: 150px"></td>
         </tr>
+        </tbody>
     </table>
-    <br/><br/>
 </div>
-<div th:id="popDiv">
-    <h4>峰米产品信息PID、SN、MN管理系统</h4>
-    <label for="id_generate">PID:</label>
-    <label id="id_generate" style="font-size: 30px" th:text="17101"></label>
-    <form th:id="pidForm" th:action="@{/toProductSKUAdd}" method="post" th:object="${pid}">
-        <input type="hidden" th:id="pid_data" th:field="${pid.pid_data}"/>
-        <input type="hidden" th:id="pid_category" th:field="${pid.pid_category}"/>
-        日期:
-        <input type="date" th:id="pid_create_date" th:field="${pid.pid_create_date}"/><br/>
-        市场名称：
-        <input type="text" th:id="market_name" th:value="市场名称" th:field="${pid.market_name}"/><br/>
-        首台序列号：
-        <input type="text" th:id="pid_sn" th:value="市场名称" th:field="${pid.pid_sn}"/><br/>
-        <select th:id="pid_brand" th:field="${pid.pid_brand}">
-            <option th:value="2">请选择产品品牌</option>
-            <option th:each="brand,userStat:${brand_list}" th:value="${brand.brand_id}"
-                    th:text="${brand.brand_name}"></option>
-        </select><br/>
-        备注：
-        <input type="text" th:id="pid_remark" th:value="备注" th:field="${pid.pid_remark}"/><br/>
-        <input type="submit" th:text="生成PID"/>
-    </form>
+<div class="layui-row layui-col-space10">
+
+    <div class="layui-col-md5 layui-col-md-offset5">
+        <label for="id_generate">PID:</label>
+        <label id="id_generate" style="font-size: 30px" th:text="17101"></label>
+    </div>
+
+</div>
+<br/>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md6 layui-col-md-offset3">
+        <form class="layui-form" th:id="pidForm" th:action="@{/toProductSKUAdd}" method="post" th:object="${pid}">
+            <input type="hidden" th:id="pid_data" th:field="${pid.pid_data}"/>
+            <input type="hidden" th:id="pid_category" th:field="${pid.pid_category}"/>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">产品品牌</label>
+                <div class="layui-input-block">
+                    <select th:id="pid_brand" th:field="${pid.pid_brand}" lay-ignore>
+                        <option value="0">--</option>
+                        <option th:each="brand,userStat:${brand_list}" th:value="${brand.brand_id}"
+                                th:text="${brand.brand_name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">日期</label>
+                <div class="layui-input-block">
+                    <input th:field="${pid.pid_create_date}" type="date" name="title" required
+                           autocomplete="false" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">市场名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:id="market_name" required placeholder="市场名称" autocomplete="off"
+                           class="layui-input" th:value="市场名称" th:field="${pid.market_name}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">首台序列号</label>
+                <div class="layui-input-block">
+                    <input type="number" th:id="pid_sn" required placeholder="首台序列号" autocomplete="off"
+                           class="layui-input" th:value="首台序列号" th:field="${pid.pid_sn}">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                <textarea class="layui-textarea" required th:id="pid_remark" th:value="备注"
+                          th:field="${pid.pid_remark}"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="submit" value="提交" class="layui-btn"/>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 </body>
 
 <script th:inline="javascript">
-    function codeDataClick(index, data) {
+    function onCodeSelected(index) {
         var lab = document.getElementById("id_generate");
-        var numInput = document.getElementById("pid_num");
         var code = lab.innerText;
-        var num = numInput.valueOf().value;
-        if (num.length != 2) {
-            alert("立项编号长度不合法");
-            return;
-        }
+
+        var i = document.getElementsByName("select_code")[index].selectedIndex;
+        var data = document.getElementsByName("select_code")[index][i].value;
         switch (index) {
             case 0:
                 code = data + code.substring(2, 5);
@@ -104,11 +147,17 @@
                 code = code.substring(0, 2) + data + code.substring(3, 5);
                 document.getElementById("pid_category").valueOf().value = data;
                 break;
-            case 2:
-                code = code.substring(0, 3) + num;
-                break;
         }
-        //alert(code);
+        lab.innerText = code;
+        document.getElementById("pid_data").valueOf().value = code;
+    }
+
+    function onCodeInput(index) {
+        var lab = document.getElementById("id_generate");
+        var code = lab.innerText;
+        var data = document.getElementsByName("input_code")[0].valueOf().value;
+
+        code = code.substring(0, 3) + data;
         lab.innerText = code;
         document.getElementById("pid_data").valueOf().value = code;
     }
