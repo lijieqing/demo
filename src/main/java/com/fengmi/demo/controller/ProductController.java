@@ -27,6 +27,10 @@ public class ProductController {
 
     private Product productData;
 
+    @RequestMapping("/")
+    public String logIn(){
+        return "redirect:getAllProduct";
+    }
     @RequestMapping("/getAllProduct")
     public String getAllProduct(Model model) {
         model.addAttribute("product_list", productService.getAllProduct());

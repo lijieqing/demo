@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Product</title>
     <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
+    <link rel="stylesheet" th:href="@{/local/layui/css/modules/layer/default/layer.css}"
+          href="/local/layui/css/modules/layer/default/layer.css"/>
     <style>
         .wrap {
             overflow: hidden;
@@ -29,62 +31,86 @@
     </style>
 </head>
 <body>
-
-<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript" th:inline="javascript">
-</script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
 <script type="text/javascript" th:inline="javascript">
+    var productList = [[${product_list}]];
     //我们强烈推荐你在代码最外层把需要用到的模块先加载
-    layui.use(['jquery', 'layer', 'form', 'element'], function () {
-
+    layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
+        $(document).on('click', '.btn_detail', function () {
+            layer.open({
+                title: '详情'
+                , content: '可以填写任意的layer代码' + productList[0].pid.pid_data + '&#13;'
+                    + $('#btn_detail').value
+                    + '可以填写任意的layer代码' + productList[0].pid.pid_data
+            });
+        })
     });
 </script>
-
-<h1 th:class="layui-bg-gray">产品信息清单</h1>
-<div style="overflow: scroll">
-    <table th:id="tb_product" th:border="1" class="layui-table" lay-even>
-        <tr>
-            <td>No.</td>
-            <td>PID</td>
-            <td>市场名称</td>
-            <td>商品类别</td>
-            <td>SKU</td>
-            <td>SKU 名称</td>
-            <td>销售地区</td>
-            <td>颜色</td>
-            <td>创建日期</td>
-            <td>MN</td>
-            <td>供应商</td>
-            <td>UIID</td>
-            <td>69码</td>
-            <td>3c名称</td>
-            <td>产品规格</td>
-            <td>合作方式</td>
-            <td>小米型号</td>
-            <td>光机料号</td>
-        </tr>
-        <tr th:each="product,memberStat:${product_list}">
-            <td th:text="${memberStat.index+1}"></td>
-            <td th:text="${product.pid.pid_data} " width="180"></td>
-            <td th:text="${product.pid.market_name} " width="180"></td>
-            <td th:text="${product.pid.pid_category_desc} " width="180"></td>
-            <td th:text="${product.sku.sku_data} " width="180"></td>
-            <td th:text="${product.sku.sku_name} " width="300"></td>
-            <td th:text="${product.sku.sku_country} " width="40"></td>
-            <td th:text="${product.color} " width="100"></td>
-            <td th:text="${product.pid.pid_create_date} " width="180"></td>
-            <td th:text="${product.mn.mn_data} " width="180"></td>
-            <td th:text="${product.mn.mn_supplier} " width="180"></td>
-            <td th:text="${product.pd.detail_uiid}"></td>
-            <td th:text="${product.pd.detail_69}"></td>
-            <td th:text="${product.pd.detail_3c}"></td>
-            <td th:text="${product.pd.detail_specification}"></td>
-            <td th:text="${product.pd.detail_cooperation}"></td>
-            <td th:text="${product.pd.detail_mi}"></td>
-            <td th:text="${product.pd.detail_proj_sn}"></td>
-        </tr>
-    </table>
-</div>
-<a th:href="@{/toProductPIDAdd}" class="layui-btn">新增产品信息</a> <br/>
+<ul class="layui-nav">
+    <li class="layui-nav-item">
+        <a th:text="${#authentication.authorities[0]}"></a>
+        <dl class="layui-nav-child">
+            <dd><a href="javascript:;">退了</a></dd>
+        </dl>
+    </li>
+</ul>
+<h1 class="layui-bg-gray">产品信息清单</h1>
+<table th:id="tb_product" th:border="1" class="layui-table" lay-even>
+    <thead>
+    <tr>
+        <td>No.</td>
+        <td>PID</td>
+        <td>市场名称</td>
+        <td>商品类别</td>
+        <td>SKU</td>
+        <td>SKU 名称</td>
+        <td>销售地区</td>
+        <td>颜色</td>
+        <td>创建日期</td>
+        <td colspan="2">操作</td>
+        <td>MN</td>
+        <td>供应商</td>
+        <td>UIID</td>
+        <td>69码</td>
+        <td>3C名称</td>
+        <td>产品规格</td>
+        <td>合作方式</td>
+        <td>小米型号</td>
+        <td>光机料号</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product,memberStat:${product_list}">
+        <td th:text="${memberStat.index+1}"></td>
+        <td th:text="${product.pid.pid_data} " height="40" width="180"></td>
+        <td th:text="${product.pid.market_name} " height="40" width="180"></td>
+        <td th:text="${product.pid.pid_category_desc} " height="40" width="180"></td>
+        <td th:text="${product.sku.sku_data} " height="40" width="180"></td>
+        <td th:text="${product.sku.sku_name} " height="40" width="300"></td>
+        <td th:text="${product.sku.sku_country} " height="40" width="40"></td>
+        <td th:text="${product.color} " height="40" width="100"></td>
+        <td th:text="${product.pid.pid_create_date} " height="40" width="180"></td>
+        <td>
+            <button class="layui-btn btn_detail" name="btn_detail" onkeypress="" th:value="${memberStat.index}">详情</button>
+        </td>
+        <td></td>
+        <td th:text="${product.mn.mn_data} " height="40" width="180"></td>
+        <td th:text="${product.mn.mn_supplier} " height="40" width="180"></td>
+        <td th:text="${product.pd.detail_uiid}" height="40" width="180"></td>
+        <td th:text="${product.pd.detail_69}" height="40" width="180"></td>
+        <td th:text="${product.pd.detail_3c}" height="40" width="180"></td>
+        <td th:text="${product.pd.detail_specification}" height="40" width="180"></td>
+        <td th:text="${product.pd.detail_cooperation}" height="40" width="180"></td>
+        <td th:text="${product.pd.detail_mi}" height="40" width="180"></td>
+        <td th:text="${product.pd.detail_proj_sn}" height="40" width="180"></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/toProductPIDAdd}" class="layui-btn">新增产品信息</a>
 </body>
 
 </html>
