@@ -30,7 +30,7 @@
     <select id="findPID" resultType="com.fengmi.demo.model.PID">
         select pid_id,pid_data,market_name,pid_create_date,pid_remark,pid_category,pid_sn,pid_brand,
         (select c.category_name from tb_product_category as c where p.pid_category=c.category_id) as pid_category_desc
-        from tb_product_pid as p where p.pid_id=#{id}
+        from tb_product_pid as p where p.pid_id=#{id} order by pid_create_date desc;
     </select>
     <select id="findSKU" resultType="com.fengmi.demo.model.SKU">
         select * from tb_product_sku as s where s.sku_id=#{id};

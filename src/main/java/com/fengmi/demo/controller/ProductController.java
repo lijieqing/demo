@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * @author lijie
  * @create 2019-07-02 09:16
@@ -34,7 +38,14 @@ public class ProductController {
 
     @RequestMapping("/getAllProduct")
     public String getAllProduct(Model model) {
-        model.addAttribute("product_list", productService.getAllProduct());
+        List<Product> list = productService.getAllProduct();
+        list.sort(new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return -o1.getPid().getPid_create_date().compareTo(o2.getPid().getPid_create_date());
+            }
+        });
+        model.addAttribute("product_list", list);
         return "product";
     }
 
