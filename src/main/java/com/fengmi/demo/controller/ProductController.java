@@ -28,9 +28,10 @@ public class ProductController {
     private Product productData;
 
     @RequestMapping("/")
-    public String logIn(){
+    public String logIn() {
         return "redirect:getAllProduct";
     }
+
     @RequestMapping("/getAllProduct")
     public String getAllProduct(Model model) {
         model.addAttribute("product_list", productService.getAllProduct());
@@ -96,6 +97,12 @@ public class ProductController {
             return "redirect:getAllProduct";
         }
         return "error";
+    }
+
+    @RequestMapping("/deleteProduct")
+    public String deleteProduct(int id) {
+        productService.deleteProductByID(id);
+        return "redirect:getAllProduct";
     }
 
     private boolean insertProduct(Product product) {

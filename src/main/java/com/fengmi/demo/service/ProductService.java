@@ -17,4 +17,6 @@ public interface ProductService {
     Integer insertProductDetail(ProductDetail detail);
 
     List<Color> findAllColor();
+
+    Integer deleteProductByID(int id);
 }

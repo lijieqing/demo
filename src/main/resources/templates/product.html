@@ -6,29 +6,6 @@
     <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
     <link rel="stylesheet" th:href="@{/local/layui/css/modules/layer/default/layer.css}"
           href="/local/layui/css/modules/layer/default/layer.css"/>
-    <style>
-        .wrap {
-            overflow: hidden;
-            height: 600px;
-        }
-
-        .cont {
-            height: 600px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            position: relative;
-        }
-
-        .state {
-            left: 0px;
-            top: 0px;
-            position: absolute;
-            height: 600px;
-            overflow-x: auto;
-            white-space: nowrap;
-            display: flex;
-        }
-    </style>
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -38,23 +15,38 @@
         th:inline="javascript"></script>
 <script type="text/javascript" th:inline="javascript">
     var productList = [[${product_list}]];
+    var clickIndex = 0;
     //我们强烈推荐你在代码最外层把需要用到的模块先加载
     layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
         $(document).on('click', '.btn_detail', function () {
             layer.open({
-                title: '详情'
-                , content: '可以填写任意的layer代码' + productList[0].pid.pid_data + '&#13;'
-                    + $('#btn_detail').value
-                    + '可以填写任意的layer代码' + productList[0].pid.pid_data
+                title: productList[clickIndex].pid.pid_data
+                , content:
+                    '<table class="layui-table"> ' +
+                    '<tr><td width="100">PID</td><td width="180">' + productList[clickIndex].pid.pid_data + '</td><td width="100">市场名称</td><td width="180">' + productList[clickIndex].pid.market_name + '</td></tr>' +
+                    '<tr><td width="100">首台SN</td><td width="180">' + productList[clickIndex].pid.pid_sn + '</td><td width="100">创建日期</td><td width="180">' + productList[clickIndex].pid.pid_create_date + '</td></tr>' +
+                    '<tr><td width="100">产品类型</td><td width="180">' + productList[clickIndex].pid.pid_category_desc + '</td><td width="100">SKU</td><td width="180">' + productList[clickIndex].sku.sku_data + '</td></tr>' +
+                    '<tr><td width="100">SKU名称</td><td width="180">' + productList[clickIndex].sku.sku_name + '</td><td width="100">销售地区</td><td width="180">' + productList[clickIndex].sku.sku_country + '</td></tr>' +
+                    '<tr><td width="100">MN</td><td width="180">' + productList[clickIndex].mn.mn_data + '</td><td width="100">MN分类</td><td width="180">' + productList[clickIndex].mn.mn_type_desc + '</td></tr>' +
+                    '<tr><td width="100">供应商</td><td width="180">' + productList[clickIndex].mn.mn_supplier + '</td><td width="100">UIID</td><td width="180">' + productList[clickIndex].pd.detail_uiid + '</td></tr>' +
+                    '<tr><td width="100">69码</td><td width="180">' + productList[clickIndex].pd.detail_69 + '</td><td width="100">光机SN</td><td width="180">' + productList[clickIndex].pd.detail_proj_sn + '</td></tr>' +
+                    '<tr><td width="100">产品规格</td><td width="180">' + productList[clickIndex].pd.detail_specification + '</td><td width="100">3C名称</td><td width="180">' + productList[clickIndex].pd.detail_3c + '</td></tr>' +
+                    '<tr><td width="100">合作商</td><td width="180">' + productList[clickIndex].pd.detail_cooperation + '</td><td width="100">米家名称</td><td width="180">' + productList[clickIndex].pd.detail_mi + '</td></tr>' +
+                    '</table>'
+                ,area:['650px','400px']
             });
         })
     });
+
+    function detailClick(index) {
+        clickIndex = index
+    }
 </script>
 <ul class="layui-nav">
     <li class="layui-nav-item">
-        <a th:text="${#authentication.authorities[0]}"></a>
+        <a th:text="${#authentication.name}"></a>
         <dl class="layui-nav-child">
-            <dd><a href="javascript:;">退了</a></dd>
+            <dd><a href="/logout">退出</a></dd>
         </dl>
     </li>
 </ul>
@@ -71,16 +63,7 @@
         <td>销售地区</td>
         <td>颜色</td>
         <td>创建日期</td>
-        <td colspan="2">操作</td>
-        <td>MN</td>
-        <td>供应商</td>
-        <td>UIID</td>
-        <td>69码</td>
-        <td>3C名称</td>
-        <td>产品规格</td>
-        <td>合作方式</td>
-        <td>小米型号</td>
-        <td>光机料号</td>
+        <td>操作</td>
     </tr>
     </thead>
     <tbody>
@@ -94,19 +77,20 @@
         <td th:text="${product.sku.sku_country} " height="40" width="40"></td>
         <td th:text="${product.color} " height="40" width="100"></td>
         <td th:text="${product.pid.pid_create_date} " height="40" width="180"></td>
-        <td>
-            <button class="layui-btn btn_detail" name="btn_detail" onkeypress="" th:value="${memberStat.index}">详情</button>
+        <td th:if="${#strings.contains(#authentication.authorities[0],'1')}">
+            <button class="layui-btn btn_detail" name="btn_detail"
+                    th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
+            </button>
         </td>
-        <td></td>
-        <td th:text="${product.mn.mn_data} " height="40" width="180"></td>
-        <td th:text="${product.mn.mn_supplier} " height="40" width="180"></td>
-        <td th:text="${product.pd.detail_uiid}" height="40" width="180"></td>
-        <td th:text="${product.pd.detail_69}" height="40" width="180"></td>
-        <td th:text="${product.pd.detail_3c}" height="40" width="180"></td>
-        <td th:text="${product.pd.detail_specification}" height="40" width="180"></td>
-        <td th:text="${product.pd.detail_cooperation}" height="40" width="180"></td>
-        <td th:text="${product.pd.detail_mi}" height="40" width="180"></td>
-        <td th:text="${product.pd.detail_proj_sn}" height="40" width="180"></td>
+        <td th:unless="${#strings.contains(#authentication.authorities[0],'1')}">
+            <button class="layui-btn btn_detail" name="btn_detail"
+                    th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
+            </button>
+            <br/>
+            <a class="layui-btn btn_detail"
+               th:href="@{/deleteProduct(id=${product.product_id})}">删除
+            </a>
+        </td>
     </tr>
     </tbody>
 </table>

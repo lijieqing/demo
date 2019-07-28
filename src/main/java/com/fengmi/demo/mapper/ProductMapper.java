@@ -19,4 +19,6 @@ public interface ProductMapper {
     List<Brand> findAllBrand();
 
     List<Color> findAllColor();
+
+    Integer deleteProductByID(int id);
 }

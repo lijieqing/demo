@@ -19,7 +19,7 @@
                      select="findDetail"/>
     </resultMap>
     <select id="getAllProduct" resultMap="productResultMap">
-        select * from tb_product_info;
+        select * from tb_product_info where product_status != 1;
     </select>
     <select id="findColor" resultType="java.lang.String">
         select c.color_name from tb_product_color as c where c.color_id=#{color}
@@ -67,7 +67,7 @@
         insert into
         tb_product_info
         values
-        (null ,#{product_sku},#{product_pid},#{product_color},#{product_brand},#{info_detail},#{product_mn});
+        (null ,#{product_sku},#{product_pid},#{product_color},#{product_brand},#{info_detail},#{product_mn},0);
     </insert>
     <select id="findAllBrand" resultType="com.fengmi.demo.model.Brand">
         select * from tb_product_brand;
@@ -76,4 +76,8 @@
     <select id="findAllColor" resultType="com.fengmi.demo.model.Color">
         select * from tb_product_color;
     </select>
+
+    <update id="deleteProductByID" parameterType="int">
+        update tb_product_info set product_status=1 where product_id=#{id};
+    </update>
 </mapper>

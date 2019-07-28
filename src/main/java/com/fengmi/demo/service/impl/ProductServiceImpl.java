@@ -44,4 +44,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Color> findAllColor() {
         return productMapper.findAllColor();
     }
+
+    @Override
+    public Integer deleteProductByID(int id) {
+        return productMapper.deleteProductByID(id);
+    }
 }
