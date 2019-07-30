@@ -34,6 +34,13 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label" th:for="detail_uiid">UIID</label>
+            <div class="layui-input-block">
+                <input th:type="text" th:id="detail_uiid" th:field="*{detail_uiid}" placeholder="UIID"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label" th:for="detail_proj_sn">光峰料号</label>
             <div class="layui-input-block">
                 <input th:type="text" th:id="detail_proj_sn" th:field="*{detail_proj_sn}" placeholder="光峰料号"
