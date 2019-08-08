@@ -20,7 +20,7 @@
     layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
         $(document).on('click', '.btn_detail', function () {
             layer.open({
-                title: '<h3>产品信息详情</h3>'+productList[clickIndex].pid.pid_data
+                title: '<h3>产品信息详情</h3>' + productList[clickIndex].pid.pid_data
                 , content:
                     '<table class="layui-table" lay-even> ' +
                     '<tr><td width="100" style="text-align: right">PID</td><td width="190">' + productList[clickIndex].pid.pid_data + '</td><td width="100" style="text-align: right">市场名称</td><td width="190">' + productList[clickIndex].pid.market_name + '</td></tr>' +
@@ -33,7 +33,7 @@
                     '<tr><td width="100" style="text-align: right">产品规格</td><td width="190">' + productList[clickIndex].pd.detail_specification + '</td><td width="100" style="text-align: right">3C名称</td><td width="190">' + productList[clickIndex].pd.detail_3c + '</td></tr>' +
                     '<tr><td width="100" style="text-align: right">合作商</td><td width="190">' + productList[clickIndex].pd.detail_cooperation + '</td><td width="100" style="text-align: right">米家名称</td><td width="190">' + productList[clickIndex].pd.detail_mi + '</td></tr>' +
                     '</table>'
-                ,area:['700px','600px']
+                , area: ['700px', '600px']
             });
         })
     });
@@ -42,64 +42,68 @@
         clickIndex = index
     }
 </script>
-<ul class="layui-nav">
-    <li class="layui-nav-item">
-        <a th:text="${#authentication.name}"></a>
-        <dl class="layui-nav-child">
-            <dd th:unless="${#strings.contains(#authentication.authorities[0],'3')}"><a th:href="@{/toProductPIDAdd}">新增产品信息</a></dd>
-            <dd><a th:href="@{/logout}">退出</a></dd>
-        </dl>
-    </li>
-</ul>
-<h1 class="layui-bg-gray">产品信息清单</h1>
-<table th:id="tb_product" th:border="1" class="layui-table" lay-even>
-    <thead>
-    <tr>
-        <td>No.</td>
-        <td>PID</td>
-        <td>市场名称</td>
-        <td>商品类别</td>
-        <td>SKU</td>
-        <td>SKU 名称</td>
-        <td>销售地区</td>
-        <td>颜色</td>
-        <td>创建日期</td>
-        <td>操作</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product,memberStat:${product_list}">
-        <td th:text="${memberStat.index+1}"></td>
-        <td th:text="${product.pid.pid_data} " height="40" width="180"></td>
-        <td th:text="${product.pid.market_name} " height="40" width="180"></td>
-        <td th:text="${product.pid.pid_category_desc} " height="40" width="180"></td>
-        <td th:text="${product.sku.sku_data} " height="40" width="180"></td>
-        <td th:text="${product.sku.sku_name} " height="40" width="300"></td>
-        <td th:text="${product.sku.sku_country} " height="40" width="40"></td>
-        <td th:text="${product.color} " height="40" width="100"></td>
-        <td th:text="${product.pid.pid_create_date} " height="40" width="180"></td>
-        <td th:if="${#strings.contains(#authentication.authorities[0],'1')}">
-            <button class="layui-btn btn_detail" name="btn_detail"
-                    th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
-            </button>
-        </td>
-        <td th:if="${#strings.contains(#authentication.authorities[0],'3')}">
-            <button class="layui-btn btn_detail" name="btn_detail"
-                    th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
-            </button>
-        </td>
-        <td th:if="${#strings.contains(#authentication.authorities[0],'2')}">
-            <button class="layui-btn btn_detail" name="btn_detail"
-                    th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
-            </button>
-            <br/>
-            <a class="layui-btn"
-               th:href="@{/deleteProduct(id=${product.product_id})}">删除
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="layui-bg-gray">
+
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a th:text="${#authentication.name}"></a>
+            <dl class="layui-nav-child">
+                <dd th:unless="${#strings.contains(#authentication.authorities[0],'3')}"><a
+                        th:href="@{/toProductPIDAdd}">新增产品信息</a></dd>
+                <dd><a th:href="@{/logout}">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <h1 class="layui-bg-gray">产品信息清单</h1>
+    <table th:id="tb_product" th:border="1" class="layui-table" lay-even>
+        <thead>
+        <tr>
+            <td>No.</td>
+            <td>PID</td>
+            <td>市场名称</td>
+            <td>商品类别</td>
+            <td>SKU</td>
+            <td>SKU 名称</td>
+            <td>销售地区</td>
+            <td>颜色</td>
+            <td>创建日期</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product,memberStat:${product_list}">
+            <td th:text="${memberStat.index+1}"></td>
+            <td th:text="${product.pid.pid_data} " height="40" width="180"></td>
+            <td th:text="${product.pid.market_name} " height="40" width="180"></td>
+            <td th:text="${product.pid.pid_category_desc} " height="40" width="180"></td>
+            <td th:text="${product.sku.sku_data} " height="40" width="180"></td>
+            <td th:text="${product.sku.sku_name} " height="40" width="300"></td>
+            <td th:text="${product.sku.sku_country} " height="40" width="40"></td>
+            <td th:text="${product.color} " height="40" width="100"></td>
+            <td th:text="${product.pid.pid_create_date} " height="40" width="180"></td>
+            <td th:if="${#strings.contains(#authentication.authorities[0],'1')}">
+                <button class="layui-btn btn_detail" name="btn_detail"
+                        th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
+                </button>
+            </td>
+            <td th:if="${#strings.contains(#authentication.authorities[0],'3')}">
+                <button class="layui-btn btn_detail" name="btn_detail"
+                        th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
+                </button>
+            </td>
+            <td th:if="${#strings.contains(#authentication.authorities[0],'2')}">
+                <button class="layui-btn btn_detail" name="btn_detail"
+                        th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
+                </button>
+                <br/>
+                <a class="layui-btn"
+                   th:href="@{/deleteProduct(id=${product.product_id})}">删除
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 
 </html>

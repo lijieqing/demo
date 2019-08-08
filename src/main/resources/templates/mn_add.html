@@ -5,100 +5,88 @@
     <title>MN add</title>
     <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
 </head>
-<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript" th:inline="javascript">
-</script>
+<body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
 <script type="text/javascript" th:inline="javascript">
     //我们强烈推荐你在代码最外层把需要用到的模块先加载
     layui.use(['jquery', 'layer', 'form', 'element'], function () {
     });
 </script>
-<style type="text/css">
-    #popDiv {
 
-        /*就是这个position:fixed起作用，生成相对定位的元素，相对于其正常位置进行定位。*/
-        position: fixed;
-
-        /*这里都是对外边距进行设置*/
-        margin: auto;
-        right: 70%;
-        bottom: 50%;
-
-        /*设置div的宽和高*/
-        width: 400px;
-        height: 280px;
-
-        /*设置超出范围后，就隐藏超出的部分*/
-        overflow: hidden;
-
-        /*设置边框*/
-        border: 2px solid #AEBBCA;
-
-        /*设置背景颜色*/
-        background-color: #EEF1F8;
-
-        /*设置鼠标的样式*/
-        cursor: move;
-    }
-</style>
-<body>
-<div style="text-align: center;align-self: center;">
-    <table class="layui-table" th:border="1">
-        <thead>
-        <tr>
-            <td style="width: 150px">编码索引</td>
-            <td style="width: 150px">编码元素</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="map :${code_rule}">
-            <td th:text="${map.key}" style="width: 150px"></td>
-            <td th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
-                <select th:name="select_code" th:onchange="javascript:onCodeSelected([[${map.key}]])">
-                    <option>--</option>
-                    <option th:each="list :${map.value}" th:value="${list.codeData}"
-                            th:text="${list.codeDesc}"></option>
-                </select>
-            </td>
-            <td th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
-                <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
-                       th:value="${map.getValue().get(0).codeData}"
-                       th:text="${map.getValue().get(0).codeDesc}">
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="layui-row layui-col-space10">
-    <div class="layui-col-md5 layui-col-md-offset5">
-        <label for="id_generate">MN:</label>
-        <label id="id_generate" style="font-size: 30px" th:text="xxxxxxxxxxxxxxxxx"></label>
+<div class="layui-bg-gray">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a th:text="${#authentication.name}"></a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/getAllProduct}">主页</a>
+                </dd>
+                <dd><a th:href="@{/logout}">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <div style="text-align: center;align-self: center;">
+        <table class="layui-table" th:border="1">
+            <thead>
+            <tr>
+                <td style="width: 150px">编码索引</td>
+                <td th:each="map :${code_rule}" th:text="${map.key}"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="width: 150px">编码元素</td>
+                <td th:each="map :${code_rule}" th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                    <select th:name="select_code" th:onchange="javascript:onCodeSelected([[${map.key}]])">
+                        <option>-请选择编码元素-</option>
+                        <option th:each="list :${map.value}" th:value="${list.codeData}"
+                                th:text="${list.codeDesc}"></option>
+                    </select>
+                </td>
+                <td th:each="map :${code_rule}" th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                    <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
+                           th:value="${map.getValue().get(0).codeData}"
+                           th:text="${map.getValue().get(0).codeDesc}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-</div>
-<div class="layui-row layui-col-space10">
-    <div class="layui-col-md6 layui-col-md-offset4">
-        <form class="layui-form" th:id="pidForm" th:action="@{/toProductDetail}" method="post" th:object="${mn}">
-            <input type="hidden" th:id="mn_data" th:field="${mn.mn_data}"/>
-            <input type="hidden" th:id="mn_type" th:field="${mn.mn_type}"/>
-            <div class="layui-form-item">
-                <label class="layui-form-label">MN名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" th:id="mn_name" required placeholder="MN名称" autocomplete="off"
-                           class="layui-input" th:value="SKU名称" th:field="${mn.mn_name}">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md5 layui-col-md-offset5">
+            <label for="id_generate">MN:</label>
+            <label id="id_generate" style="font-size: 30px" th:text="xxxxxxxxxxxxxxxxx"></label>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6 layui-col-md-offset4">
+            <form class="layui-form" th:id="pidForm" th:action="@{/toProductDetail}" method="post" th:object="${mn}">
+                <input type="hidden" th:id="mn_data" th:field="${mn.mn_data}"/>
+                <input type="hidden" th:id="mn_type" th:field="${mn.mn_type}"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">MN名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" th:id="mn_name" required placeholder="MN名称" autocomplete="off"
+                               class="layui-input" th:value="SKU名称" th:field="${mn.mn_name}">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">供应商名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" th:id="mn_supplier" required placeholder="供应商名称" autocomplete="off"
-                           class="layui-input" th:value="供应商名称" th:field="${mn.mn_supplier}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">供应商名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" th:id="mn_supplier" required placeholder="供应商名称" autocomplete="off"
+                               class="layui-input" th:value="供应商名称" th:field="${mn.mn_supplier}">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input type="submit" class="layui-btn"/>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" class="layui-btn"/>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 </body>

@@ -14,103 +14,126 @@
 </script>
 
 <body class="layui-layout-body">
-<div style="float: left;width: 20%">
-    <form class="layui-form" th:action="@{/addProductDetail}" th:object="${detail}" th:method="post">
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_color">颜色</label>
-            <div class="layui-input-block">
-                <select th:field="*{detail_color}" lay-ignore>
-                    <option th:value="2">请选择颜色，默认黑色</option>
-                    <option th:each="color,userStat:${color_list}" th:value="${color.color_id}"
-                            th:text="${color.color_name}"></option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_69">69码</label>
-            <div class="layui-input-block">
-                <input th:type="text" required th:id="detail_69" th:field="*{detail_69}" placeholder="请输入69码"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_uiid">UIID</label>
-            <div class="layui-input-block">
-                <input th:type="text" th:id="detail_uiid" th:field="*{detail_uiid}" placeholder="UIID"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_proj_sn">光峰料号</label>
-            <div class="layui-input-block">
-                <input th:type="text" th:id="detail_proj_sn" th:field="*{detail_proj_sn}" placeholder="光峰料号"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_specification">产品规格</label>
-            <div class="layui-input-block">
-                <input th:type="text" th:id="detail_specification" th:field="*{detail_specification}"
-                       placeholder="产品规格"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_3c">3C名称</label>
-            <div class="layui-input-block">
-                <input th:type="text" th:id="detail_3c" th:field="*{detail_3c}"
-                       placeholder="3C名称"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_mi">小米型号</label>
-            <div class="layui-input-block">
-                <input th:type="text" th:id="detail_specification" th:field="*{detail_mi}" placeholder="没有可不填"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" th:for="detail_cooperation">合作模式</label>
-            <div class="layui-input-block">
-                <input th:type="text" required th:id="detail_cooperation" th:field="*{detail_cooperation}"
-                       placeholder="自有、米家"
-                       class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <input type="submit" class="layui-btn"/>
-            </div>
-        </div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    });
+</script>
 
-    </form>
-</div>
-<div>
-    <table class="layui-table" th:border="1">
-        <thead>
-        <tr>
-            <td>PID</td>
-            <td>市场名称</td>
-            <td>SKU</td>
-            <td>SKU 名称</td>
-            <td>MN</td>
-            <td>供应商</td>
-            <td>销售地区</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:width="180" th:text="${product.pid.pid_data}"></td>
-            <td th:width="180" th:text="${product.pid.market_name}"></td>
-            <td th:width="180" th:text="${product.sku.sku_data}"></td>
-            <td th:width="180" th:text="${product.sku.sku_name}"></td>
-            <td th:width="180" th:text="${product.mn.mn_data}"></td>
-            <td th:width="180" th:text="${product.mn.mn_supplier}"></td>
-            <td th:width="180" th:text="${product.sku.sku_country}"></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="layui-bg-gray">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a th:text="${#authentication.name}"></a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/getAllProduct}">主页</a>
+                </dd>
+                <dd><a th:href="@{/logout}">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <div>
+        <table class="layui-table" th:border="1">
+            <thead>
+            <tr>
+                <td>PID</td>
+                <td>市场名称</td>
+                <td>SKU</td>
+                <td>SKU 名称</td>
+                <td>MN</td>
+                <td>供应商</td>
+                <td>销售地区</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:width="180" th:text="${product.pid.pid_data}"></td>
+                <td th:width="180" th:text="${product.pid.market_name}"></td>
+                <td th:width="180" th:text="${product.sku.sku_data}"></td>
+                <td th:width="180" th:text="${product.sku.sku_name}"></td>
+                <td th:width="180" th:text="${product.mn.mn_data}"></td>
+                <td th:width="180" th:text="${product.mn.mn_supplier}"></td>
+                <td th:width="180" th:text="${product.sku.sku_country}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="float: left;width: 20%">
+        <form class="layui-form" th:action="@{/addProductDetail}" th:object="${detail}" th:method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_color">颜色</label>
+                <div class="layui-input-block">
+                    <select th:field="*{detail_color}" lay-ignore>
+                        <option th:value="2">请选择颜色，默认黑色</option>
+                        <option th:each="color,userStat:${color_list}" th:value="${color.color_id}"
+                                th:text="${color.color_name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_69">69码</label>
+                <div class="layui-input-block">
+                    <input th:type="text" required th:id="detail_69" th:field="*{detail_69}" placeholder="请输入69码"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_uiid">UIID</label>
+                <div class="layui-input-block">
+                    <input th:type="text" th:id="detail_uiid" th:field="*{detail_uiid}" placeholder="UIID"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_proj_sn">光峰料号</label>
+                <div class="layui-input-block">
+                    <input th:type="text" th:id="detail_proj_sn" th:field="*{detail_proj_sn}" placeholder="光峰料号"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_specification">产品规格</label>
+                <div class="layui-input-block">
+                    <input th:type="text" th:id="detail_specification" th:field="*{detail_specification}"
+                           placeholder="产品规格"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_3c">3C名称</label>
+                <div class="layui-input-block">
+                    <input th:type="text" th:id="detail_3c" th:field="*{detail_3c}"
+                           placeholder="3C名称"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_mi">小米型号</label>
+                <div class="layui-input-block">
+                    <input th:type="text" th:id="detail_specification" th:field="*{detail_mi}" placeholder="没有可不填"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_cooperation">合作模式</label>
+                <div class="layui-input-block">
+                    <input th:type="text" required th:id="detail_cooperation" th:field="*{detail_cooperation}"
+                           placeholder="自有、米家"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="submit" class="layui-btn"/>
+                </div>
+            </div>
+
+        </form>
+    </div>
 </div>
 </body>
 
