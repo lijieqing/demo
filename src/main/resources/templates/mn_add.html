@@ -102,13 +102,15 @@
             case 0:
                 i = document.getElementsByName("select_code")[0].selectedIndex;
                 data = document.getElementsByName("select_code")[0][i].value;
-                code = data + code.substring(1, 13);
+                code = data + code.substring(1, 17);
                 document.getElementById("mn_type").valueOf().value = data;
                 break;
             case 1:
                 i = document.getElementsByName("select_code")[1].selectedIndex;
                 data = document.getElementsByName("select_code")[1][i].value;
                 code = code.substring(0, 1) + data + code.substring(2, 17);
+                var desc = document.getElementsByName("select_code")[1][i].text;
+                document.getElementById("mn_supplier").valueOf().value = desc;
                 break;
             case 2:
                 i = document.getElementsByName("select_code")[2].selectedIndex;

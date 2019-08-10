@@ -95,4 +95,20 @@ public class ProductDetail {
     public void setDetail_color(Integer detail_color) {
         this.detail_color = detail_color;
     }
+
+    @Override
+    public String toString() {
+        return "ProductDetail{" +
+                "detail_id=" + detail_id +
+                ", detail_uiid='" + detail_uiid + '\'' +
+                ", detail_69='" + detail_69 + '\'' +
+                ", detail_proj_sn='" + detail_proj_sn + '\'' +
+                ", detail_3c='" + detail_3c + '\'' +
+                ", detail_specification='" + detail_specification + '\'' +
+                ", detail_pn='" + detail_pn + '\'' +
+                ", detail_mi='" + detail_mi + '\'' +
+                ", detail_color=" + detail_color +
+                ", detail_cooperation='" + detail_cooperation + '\'' +
+                '}';
+    }
 }

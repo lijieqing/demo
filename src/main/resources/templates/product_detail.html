@@ -68,7 +68,7 @@
                 <label class="layui-form-label" th:for="detail_color">颜色</label>
                 <div class="layui-input-block">
                     <select th:field="*{detail_color}" lay-ignore>
-                        <option th:value="2">请选择颜色，默认黑色</option>
+                        <option th:value="2">请选择颜色</option>
                         <option th:each="color,userStat:${color_list}" th:value="${color.color_id}"
                                 th:text="${color.color_name}"></option>
                     </select>
@@ -108,6 +108,14 @@
                 <div class="layui-input-block">
                     <input th:type="text" th:id="detail_3c" th:field="*{detail_3c}"
                            placeholder="3C名称"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" th:for="detail_3c">内部产品编码</label>
+                <div class="layui-input-block">
+                    <input th:type="text" th:id="detail_pn" th:field="*{detail_pn}"
+                           placeholder="内部产品编码"
                            class="layui-input"/>
                 </div>
             </div>

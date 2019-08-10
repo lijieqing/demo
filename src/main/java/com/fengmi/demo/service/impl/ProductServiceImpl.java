@@ -49,4 +49,14 @@ public class ProductServiceImpl implements ProductService {
     public Integer deleteProductByID(int id) {
         return productMapper.deleteProductByID(id);
     }
+
+    @Override
+    public Product findProductByID(int id) {
+        return productMapper.findProductByID(id);
+    }
+
+    @Override
+    public int updateProduct(ProductDetail detail) {
+        return productMapper.updateProduct(detail);
+    }
 }

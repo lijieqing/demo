@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    });
+</script>
+<div class="layui-bg-gray">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a th:text="${#authentication.name}"></a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/getAllProduct}">主页</a>
+                </dd>
+                <dd><a th:href="@{/logout}">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <h1> 产品信息编辑 </h1>
+    <table class="layui-table">
+        <tr>
+            <td width="100" style="text-align: right">PID</td>
+            <td width="190" th:text="${product.pid.pid_data}"></td>
+            <td width="100" style="text-align: right">MN</td>
+            <td width="190" th:text="${product.mn.mn_data}"></td>
+            <td width="100" style="text-align: right">SKU</td>
+            <td width="190" th:text="${product.sku.sku_data}"></td>
+            <td width="100" style="text-align: right">创建日期</td>
+            <td width="190" th:text="${product.pid.pid_create_date}"></td>
+        </tr>
+        <tr>
+            <td width="100" style="text-align: right">产品名称</td>
+            <td width="190" th:text="${product.pid.market_name}"></td>
+            <td width="100" style="text-align: right">MN名称</td>
+            <td width="190" th:text="${product.mn.mn_name}"></td>
+            <td width="100" style="text-align: right">SKU名称</td>
+            <td width="190" th:text="${product.sku.sku_name}"></td>
+            <td width="100" style="text-align: right">首台SN</td>
+            <td width="190" th:text="${product.pid.pid_sn}"></td>
+        </tr>
+    </table>
+
+    <form class="layui-form" th:action="@{/updateProduct}" method="post">
+        <input type="hidden" th:id="product_id" th:field="${product.product_id}" th:value="${product.product_id}"/>
+        <input type="hidden" th:id="product_color" th:field="${product.product_color}"
+               th:value="${product.product_id}"/>
+        <input type="hidden" th:id="product_brand" th:field="${product.product_brand}"
+               th:value="${product.product_brand}"/>
+        <input type="hidden" th:id="info_detail" th:field="${product.info_detail}" th:value="${product.info_detail}"/>
+        <input type="hidden" th:id="pd_info_detail" th:field="${product.pd.detail_id}"
+               th:value="${product.pd.detail_id}"/>
+        <input type="hidden" th:id="product_pid" th:field="${product.product_pid}" th:value="${product.product_pid}"/>
+        <input type="hidden" th:id="product_sku" th:field="${product.product_sku}" th:value="${product.product_sku}"/>
+        <input type="hidden" th:id="product_mn" th:field="${product.product_mn}" th:value="${product.product_mn}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">69码</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_69" required autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_69}" th:field="${product.pd.detail_69}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">UIID</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_uiid" required autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_uiid}" th:field="${product.pd.detail_uiid}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品规格</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_specification" required autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_specification}"
+                       th:field="${product.pd.detail_specification}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">3C 名称</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_3c" required autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_3c}"
+                       th:field="${product.pd.detail_3c}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">光机 SN</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_proj_sn" required autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_proj_sn}"
+                       th:field="${product.pd.detail_proj_sn}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">内部产品编码</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_pn" autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_pn}"
+                       th:field="${product.pd.detail_pn}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">米家型号</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_mi" autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_mi}"
+                       th:field="${product.pd.detail_mi}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">合作商</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_cooperation" autocomplete="off"
+                       class="layui-input" th:value="${product.pd.detail_cooperation}"
+                       th:field="${product.pd.detail_cooperation}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="submit" class="layui-btn"/>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

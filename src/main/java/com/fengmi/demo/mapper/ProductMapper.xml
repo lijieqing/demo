@@ -18,6 +18,9 @@
         <association property="pd" column="{id=info_detail}" javaType="com.fengmi.demo.model.ProductDetail"
                      select="findDetail"/>
     </resultMap>
+    <select id="findProductByID" resultMap="productResultMap" parameterType="int">
+        select * from tb_product_info as p where p.product_id=#{id};
+    </select>
     <select id="getAllProduct" resultMap="productResultMap">
         select * from tb_product_info where product_status != 1;
     </select>
@@ -79,5 +82,15 @@
 
     <update id="deleteProductByID" parameterType="int">
         update tb_product_info set product_status=1 where product_id=#{id};
+    </update>
+    <update id="updateProduct" parameterType="com.fengmi.demo.model.ProductDetail">
+        update tb_product_info_detail
+        set
+        detail_uiid=#{detail_uiid},detail_69=#{detail_69},
+        detail_proj_sn=#{detail_proj_sn},detail_3c=#{detail_3c},
+        detail_specification=#{detail_specification},detail_pn=#{detail_pn},
+        detail_mi=#{detail_mi},detail_cooperation=#{detail_cooperation},
+        detail_color=#{detail_color}
+        where detail_id=#{detail_id};
     </update>
 </mapper>

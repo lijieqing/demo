@@ -49,6 +49,20 @@ public class ProductController {
         return "product";
     }
 
+    @RequestMapping("/toProductEdit")
+    public String toProductEdit(int id, Model model) {
+        model.addAttribute("product", productService.findProductByID(id));
+        return "product_edit";
+    }
+
+    @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+    public String updateProductDetail(Product product) {
+        System.out.println("------------------"+product.toString());
+
+        productService.updateProduct(product.getPd());
+        return "redirect:getAllProduct";
+    }
+
     @RequestMapping("/toProductPIDAdd")
     public String toProductPIDAdd(Model model) {
         productData = new Product();
