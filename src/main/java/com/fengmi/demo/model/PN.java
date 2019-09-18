@@ -10,6 +10,7 @@ public class PN {
     private String pn_simple_name;
     private String pn_desc;
     private Integer pn_product_info;
+    private Product product;
 
     public Integer getPn_id() {
         return pn_id;
@@ -51,6 +52,14 @@ public class PN {
         this.pn_product_info = pn_product_info;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     @Override
     public String toString() {
         return "PN{" +
@@ -59,6 +68,7 @@ public class PN {
                 ", pn_simple_name='" + pn_simple_name + '\'' +
                 ", pn_desc='" + pn_desc + '\'' +
                 ", pn_product_info=" + pn_product_info +
+                ", product=" + product +
                 '}';
     }
 }

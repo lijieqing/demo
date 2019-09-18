@@ -14,9 +14,33 @@
 <script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
         th:inline="javascript"></script>
 <script type="text/javascript" th:inline="javascript">
+    var pnList = [[${pn_list}]];
+    var clickIndex = 0;
     //我们强烈推荐你在代码最外层把需要用到的模块先加载
-    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
+        $(document).on('click', '.btn_detail', function () {
+            layer.open({
+                title: '<h3>产品信息详情</h3>' + pnList[clickIndex].product.pid.pid_data
+                , content:
+                    '<table class="layui-table" lay-even> ' +
+                    '<tr><td width="100" style="text-align: right">PID</td><td width="190">' + pnList[clickIndex].product.pid.pid_data + '</td><td width="100" style="text-align: right">市场名称</td><td width="190">' + pnList[clickIndex].product.pid.market_name + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">首台SN</td><td width="190">' + pnList[clickIndex].product.pid.pid_sn + '</td><td width="100" style="text-align: right">创建日期</td><td width="190">' + pnList[clickIndex].product.pid.pid_create_date + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">产品类型</td><td width="190">' + pnList[clickIndex].product.pid.pid_category_desc + '</td><td width="100" style="text-align: right">SKU</td><td width="190">' + pnList[clickIndex].product.sku.sku_data + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">SKU名称</td><td width="190">' + pnList[clickIndex].product.sku.sku_name + '</td><td width="100" style="text-align: right">销售地区</td><td width="190">' + pnList[clickIndex].product.sku.sku_country + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">内部产品编码</td><td width="190">' + pnList[clickIndex].product.pd.detail_pn  + '</td><td width="100" style="text-align: right">UIID</td><td width="190">' + pnList[clickIndex].product.pd.detail_uiid + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">69码</td><td width="190">' + pnList[clickIndex].product.pd.detail_69 + '</td><td width="100" style="text-align: right">光机SN</td><td width="190">' + pnList[clickIndex].product.pd.detail_proj_sn + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">产品规格</td><td width="190">' + pnList[clickIndex].product.pd.detail_specification + '</td><td width="100" style="text-align: right">3C名称</td><td width="190">' + pnList[clickIndex].product.pd.detail_3c + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">合作商</td><td width="190">' + pnList[clickIndex].product.pd.detail_cooperation + '</td><td width="100" style="text-align: right">米家名称</td><td width="190">' + pnList[clickIndex].product.pd.detail_mi + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">内部产品编码</td><td width="190">' + pnList[clickIndex].product.pd.detail_pn + '</td><td width="100" style="text-align: right"></td><td width="190"></td></tr>' +
+                    '</table>'
+                , area: ['700px', '600px']
+            });
+        })
     });
+
+    function detailClick(index) {
+        clickIndex = index;
+    }
 </script>
 <div class="layui-bg-gray">
 

@@ -59,4 +59,16 @@ public class MN {
     public void setMn_supplier(String mn_supplier) {
         this.mn_supplier = mn_supplier;
     }
+
+    @Override
+    public String toString() {
+        return "MN{" +
+                "mn_id=" + mn_id +
+                ", mn_type='" + mn_type + '\'' +
+                ", mn_type_desc='" + mn_type_desc + '\'' +
+                ", mn_data='" + mn_data + '\'' +
+                ", mn_name='" + mn_name + '\'' +
+                ", mn_supplier='" + mn_supplier + '\'' +
+                '}';
+    }
 }

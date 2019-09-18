@@ -68,4 +68,16 @@ public class ProductForm {
     public void setProduct_detail(ProductDetail product_detail) {
         this.product_detail = product_detail;
     }
+
+    @Override
+    public String toString() {
+        return "ProductForm{" +
+                "pn=" + pn +
+                ", pid=" + pid +
+                ", mn=" + mn +
+                ", sku=" + sku +
+                ", product=" + product +
+                ", product_detail=" + product_detail +
+                '}';
+    }
 }

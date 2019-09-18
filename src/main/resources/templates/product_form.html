@@ -31,20 +31,21 @@
             </dl>
         </li>
     </ul>
-    <div class="layui-container">
+    <!--    PN 生成    -->
+    <div class="layui-container layui-bg-cyan">
         <div class="layui-row">
-            <div class="layui-col-md3">
+            <div class="layui-col-md4">
                 <div class="layui-col-md5 layui-col-md-offset4">
                     <h4>
                         项目代号创建<br/>
                         按照右侧编码索引<br/>
                         逐个选择对应的元素
                     </h4>
-
-                    <label for="pn_generate" style="font-size: 27px">项目代号:</label>
-                    <label id="pn_generate" style="font-size: 30px" th:text="-------"></label>
                 </div>
-
+            </div>
+            <div class="layui-col-md8">
+                <label for="pn_generate" style="font-size: 27px">项目代号:</label>
+                <label id="pn_generate" style="font-size: 30px" th:text="-------"></label>
             </div>
             <div class="layui-col-md9">
                 <table class="layui-table" th:border="1">
@@ -57,14 +58,16 @@
                     <tbody>
                     <tr>
                         <td style="width: 150px">编码元素</td>
-                        <td th:each="map :${pn_code_rule}" th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                        <td th:each="map :${pn_code_rule}"
+                            th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
                             <select th:name="select_code_pn" th:onchange="javascript:onPNCodeSelected([[${map.key}]])">
                                 <option>-请选择编码元素-</option>
                                 <option th:each="list :${map.value}" th:value="${list.codeData}"
                                         th:text="${list.codeDesc}"></option>
                             </select>
                         </td>
-                        <td th:each="map :${pn_code_rule}" th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                        <td th:each="map :${pn_code_rule}"
+                            th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
                             <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
                                    th:value="${map.getValue().get(0).codeData}"
                                    th:text="${map.getValue().get(0).codeDesc}">
@@ -74,19 +77,110 @@
                 </table>
             </div>
         </div>
-
+    </div>
+    <!--    PID 生成    -->
+    <div class="layui-container layui-bg-cyan">
+        <div class="layui-row">
+            <div class="layui-col-md4">
+                <div class="layui-col-md5 layui-col-md-offset4">
+                    <h4>
+                        PID 创建<br/>
+                        按照右侧编码索引<br/>
+                        逐个选择对应的元素
+                    </h4>
+                </div>
+            </div>
+            <div class="layui-col-md8">
+                <label for="pid_generate" style="font-size: 27px">PID:</label>
+                <label id="pid_generate" style="font-size: 30px" th:text="-----"></label>
+            </div>
+            <div class="layui-col-md9">
+                <table class="layui-table" th:border="1">
+                    <thead>
+                    <tr>
+                        <td style="width: 150px">PID编码索引</td>
+                        <td th:each="map :${pid_code_rule}" th:text="${map.key}"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="width: 150px">编码元素</td>
+                        <td th:each="map :${pid_code_rule}"
+                            th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                            <select th:name="select_code_pid" th:onclick="javascript:onPIDCodeSelected([[${map.key}]])">
+                                <option>-请选择编码元素-</option>
+                                <option th:each="list :${map.value}" th:value="${list.codeData}"
+                                        th:text="${list.codeDesc}"></option>
+                            </select>
+                        </td>
+                        <td th:each="map :${pid_code_rule}"
+                            th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                            <input th:name="input_code_pid" th:oninput="javascript:onPIDCodeInput([[${map.key}]])"
+                                   th:value="${map.getValue().get(0).codeData}"
+                                   th:text="${map.getValue().get(0).codeDesc}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--    SKU 生成    -->
+    <div class="layui-container layui-bg-cyan">
+        <div class="layui-row">
+            <div class="layui-col-md4">
+                <div class="layui-col-md5 layui-col-md-offset4">
+                    <h4>
+                        SKU 创建<br/>
+                        按照右侧编码索引<br/>
+                        逐个选择对应的元素
+                    </h4>
+                </div>
+            </div>
+            <div class="layui-col-md8">
+                <label for="sku_generate" style="font-size: 27px">SKU:</label>
+                <label id="sku_generate" style="font-size: 30px" th:text="-------------"></label>
+            </div>
+            <div class="layui-col-md10">
+                <table class="layui-table" th:border="1">
+                    <thead>
+                    <tr>
+                        <td style="width: 150px">SKU编码索引</td>
+                        <td th:each="map :${sku_code_rule}" th:text="${map.key}"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="width: 150px">编码元素</td>
+                        <td th:each="map :${sku_code_rule}"
+                            th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                            <select th:name="select_code_sku"
+                                    th:onchange="javascript:onSKUCodeSelected([[${map.key}]])">
+                                <option>-请选择编码元素-</option>
+                                <option th:each="list :${map.value}" th:value="${list.codeData}"
+                                        th:text="${list.codeDesc}"></option>
+                            </select>
+                        </td>
+                        <td th:each="map :${sku_code_rule}"
+                            th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                            <input th:name="input_code" th:oninput="javascript:onSKUCodeInput([[${map.key}]])"
+                                   th:value="${map.getValue().get(0).codeData}"
+                                   th:text="${map.getValue().get(0).codeDesc}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <div class="layui-row">
 
         <form class="layui-form" th:id="product_form" th:action="@{/addPN}" method="post" th:object="${form_product}">
             <div class="layui-container">
-                <!--内部项目代号创建-->
                 <div class="layui-row">
-                    <div class="layui-col-md3">
-
-                    </div>
                     <div class="layui-col-md9">
+                        <!--内部产品号-->
                         <input type="hidden" th:id="pn_data" th:field="${form_product.pn.pn_data}"/>
                         <div class="layui-form-item">
                             <label class="layui-form-label">项目简称</label>
@@ -102,33 +196,141 @@
                                        class="layui-input" th:value="项目描述" th:field="${form_product.pn.pn_desc}">
                             </div>
                         </div>
+                        <!--PID产品号-->
+                        <input type="hidden" th:id="pid_data" th:field="${form_product.pid.pid_data}"/>
+                        <input type="hidden" th:id="pid_category" th:field="${form_product.pid.pid_category}"/>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">产品品牌</label>
+                            <div class="layui-input-block">
+                                <select th:id="pid_brand" th:field="${form_product.pid.pid_brand}" lay-ignore>
+                                    <option value="0">-请选择产品品牌-</option>
+                                    <option th:each="brand,userStat:${brand_list}" th:value="${brand.brand_id}"
+                                            th:text="${brand.brand_name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">日期</label>
+                            <div class="layui-input-block">
+                                <input th:field="${form_product.pid.pid_create_date}" type="date" name="title" required
+                                       autocomplete="false" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">市场名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" th:id="market_name" required placeholder="市场名称" autocomplete="off"
+                                       class="layui-input" th:value="市场名称" th:field="${form_product.pid.market_name}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">首台序列号</label>
+                            <div class="layui-input-block">
+                                <input type="number" th:id="pid_sn" required placeholder="90000001" autocomplete="off"
+                                       class="layui-input" th:value="90000001" th:field="${form_product.pid.pid_sn}">
+                            </div>
+                        </div>
+                        <!-- SKU 增加 -->
+                        <input type="hidden" th:id="sku_data" th:field="${form_product.sku.sku_data}"/><br/>
+                        <input type="hidden" th:id="sku_country" th:field="${form_product.sku.sku_country}"/><br/>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">SKU名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" th:id="sku_name" required placeholder="SKU名称" autocomplete="off"
+                                       class="layui-input" th:value="SKU名称" th:field="${form_product.sku.sku_name}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_color">颜色</label>
+                            <div class="layui-input-block">
+                                <select th:field="${form_product.product_detail.detail_color}" lay-ignore>
+                                    <option th:value="2">请选择颜色</option>
+                                    <option th:each="color,userStat:${color_list}" th:value="${color.color_id}"
+                                            th:text="${color.color_name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_69">69码</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" required th:id="detail_69"
+                                       th:field="${form_product.product_detail.detail_69}" placeholder="请输入69码"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_uiid">UIID</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" th:id="detail_uiid"
+                                       th:field="${form_product.product_detail.detail_uiid}" placeholder="UIID"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_proj_sn">光峰料号</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" th:id="detail_proj_sn"
+                                       th:field="${form_product.product_detail.detail_proj_sn}" placeholder="光峰料号"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_specification">产品规格</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" th:id="detail_specification"
+                                       th:field="${form_product.product_detail.detail_specification}"
+                                       placeholder="产品规格"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_3c">3C名称</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" th:id="detail_3c"
+                                       th:field="${form_product.product_detail.detail_3c}"
+                                       placeholder="3C名称"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_mi">小米型号</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" th:id="detail_specification"
+                                       th:field="${form_product.product_detail.detail_mi}" placeholder="没有可不填"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:for="detail_cooperation">合作模式</label>
+                            <div class="layui-input-block">
+                                <input th:type="text" required th:id="detail_cooperation"
+                                       th:field="${form_product.product_detail.detail_cooperation}"
+                                       placeholder="自有、米家"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" required th:id="pid_remark" th:value="备注"
+                                          th:field="${form_product.pid.pid_remark}"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!--项目PID创建-->
                 <div class="layui-row">
-                    <div class="layui-col-md1">
-
-                    </div>
-                    <div class="layui-col-md12">
-
+                    <div class="layui-col-md8 layui-col-md-offset5">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="submit" value="提交" class="layui-btn"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
 
-
-            <div class="layui-bg-cyan">
-                <input type="hidden" th:id="pid_data" th:field="${form_product.pid.pid_data}"/>
-            </div>
-            <input type="hidden" th:id="mn_data" th:field="${form_product.mn.mn_data}"/>
-            <input type="hidden" th:id="sku_data" th:field="${form_product.sku.sku_data}"/>
-
-
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input type="submit" value="提交" class="layui-btn"/>
-                </div>
-            </div>
         </form>
     </div>
 </div>
@@ -164,6 +366,183 @@
         }
         lab.innerText = code;
         document.getElementById("pn_data").valueOf().value = code;
+    }
+
+    function onPIDCodeSelected(index) {
+        var lab = document.getElementById("pid_generate");
+        var code = lab.innerText;
+
+        var i = document.getElementsByName("select_code_pid")[index].selectedIndex;
+        var data = document.getElementsByName("select_code_pid")[index][i].value;
+        switch (index) {
+            case 0:
+                code = data + code.substring(2, 5);
+                lab.innerText = code;
+                break;
+            case 1:
+                code = code.substring(0, 2) + data + code.substring(3, 5);
+                lab.innerText = code;
+                document.getElementById("pid_category").valueOf().value = data;
+                break;
+        }
+        document.getElementById("pid_data").valueOf().value = code;
+    }
+
+    function onPIDCodeInput(index) {
+        var lab = document.getElementById("pid_generate");
+        var code = lab.innerText;
+        var data = document.getElementsByName("input_code_pid")[0].valueOf().value;
+
+        code = code.substring(0, 3) + data;
+        lab.innerText = code;
+        document.getElementById("pid_data").valueOf().value = code;
+    }
+
+    function onSKUCodeSelected(index) {
+        var lab = document.getElementById("sku_generate");
+        var code = lab.innerText;
+
+        var i = document.getElementsByName("select_code_sku")[index].selectedIndex;
+        var data = document.getElementsByName("select_code_sku")[index][i].value;
+        switch (index) {
+            case 0:
+                code = data + code.substring(1, 13);
+                lab.innerText = code;
+                break;
+            case 1:
+                code = code.substring(0, 1) + data + code.substring(3, 13);
+                lab.innerText = code;
+                break;
+            case 2:
+                code = code.substring(0, 3) + data + code.substring(5, 13);
+                lab.innerText = code;
+                break;
+            case 3:
+                code = code.substring(0, 5) + data + code.substring(6, 13);
+                lab.innerText = code;
+                break;
+            case 4:
+                code = code.substring(0, 6) + data + code.substring(7, 13);
+                lab.innerText = code;
+                break;
+            case 5:
+                code = code.substring(0, 7) + data + code.substring(10, 13);
+                lab.innerText = code;
+                break;
+            case 6:
+                code = code.substring(0, 10) + data + code.substring(11, 13);
+                lab.innerText = code;
+                break;
+            case 7:
+                code = code.substring(0, 11) + data;
+                lab.innerText = code;
+                document.getElementById("sku_country").valueOf().value = data;
+                break;
+        }
+        //alert(code);
+        document.getElementById("sku_data").valueOf().value = code;
+    }
+
+    function onMNCodeSelected(index) {
+        var lab = document.getElementById("mn_generate");
+        var code = lab.innerText;
+
+        var i;
+        var data;
+        switch (index) {
+            case 0:
+                i = document.getElementsByName("select_code_mn")[0].selectedIndex;
+                data = document.getElementsByName("select_code_mn")[0][i].value;
+                code = data + code.substring(1, 17);
+                document.getElementById("mn_type").valueOf().value = data;
+                break;
+            case 1:
+                i = document.getElementsByName("select_code_mn")[1].selectedIndex;
+                data = document.getElementsByName("select_code_mn")[1][i].value;
+                code = code.substring(0, 1) + data + code.substring(2, 17);
+                var desc = document.getElementsByName("select_code_mn")[1][i].text;
+                document.getElementById("mn_supplier").valueOf().value = desc;
+                break;
+            case 2:
+                i = document.getElementsByName("select_code_mn")[2].selectedIndex;
+                data = document.getElementsByName("select_code_mn")[2][i].value;
+                code = code.substring(0, 2) + data + code.substring(3, 17);
+                break;
+            case 7:
+                i = document.getElementsByName("select_code_mn")[3].selectedIndex;
+                data = document.getElementsByName("select_code_mn")[3][i].value;
+                code = code.substring(0, 8) + data + code.substring(9, 17);
+                break;
+            case 8:
+                i = document.getElementsByName("select_code_mn")[4].selectedIndex;
+                data = document.getElementsByName("select_code_mn")[4][i].value;
+                code = code.substring(0, 9) + data + code.substring(10, 17);
+                break;
+        }
+        lab.innerText = code;
+        document.getElementById("mn_data").valueOf().value = code;
+    }
+
+    function onMNCodeInput(index) {
+        var lab = document.getElementById("mn_generate");
+        var code = lab.innerText;
+        var numlist = document.getElementsByName("input_code_mn");
+        var digitRE = /^[0-9]*$/g;
+        var RE = /^[0-9a-zA-Z]*$/g;
+        var monthRE = /^[0-9a-cA-C]*$/g;
+        var num;
+        switch (index) {
+            case 3:
+                num = numlist.item(0).valueOf().value;
+                if (num.length == 1 && digitRE.test(num)) {
+                    code = code.substring(0, 3) + num + code.substring(4, 17);
+                } else {
+                    // alert("error" + num)
+                }
+                break;
+            case 4:
+                num = numlist.item(1).valueOf().value;
+                if (num.length == 1 && monthRE.test(num)) {
+                    code = code.substring(0, 4) + num + code.substring(5, 17);
+                } else {
+                    // alert("error")
+                }
+                break;
+            case 5:
+                num = numlist.item(2).valueOf().value;
+                if (num.length == 2 && digitRE.test(num)) {
+                    code = code.substring(0, 5) + num + code.substring(7, 17);
+                } else {
+                    // alert("error")
+                }
+                break;
+            case 6:
+                num = numlist.item(3).valueOf().value;
+                if (num.length == 1 && RE.test(num)) {
+                    code = code.substring(0, 7) + num + code.substring(8, 17);
+                } else {
+                    // alert("error")
+                }
+                break;
+            case 9:
+                num = numlist.item(4).valueOf().value;
+                if (num.length == 4 && digitRE.test(num)) {
+                    code = code.substring(0, 10) + num + code.substring(14, 17);
+                } else {
+                    // alert("error")
+                }
+                break;
+            case 10:
+                num = numlist.item(5).valueOf().value;
+                if (num.length == 3 && digitRE.test(num)) {
+                    code = code.substring(0, 14) + num;
+                } else {
+                    // alert("error")
+                }
+                break;
+        }
+        lab.innerText = code;
+        document.getElementById("mn_data").valueOf().value = code;
     }
 
 </script>
