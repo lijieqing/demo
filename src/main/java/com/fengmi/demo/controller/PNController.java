@@ -1,6 +1,7 @@
 package com.fengmi.demo.controller;
 
 import com.fengmi.demo.model.PN;
+import com.fengmi.demo.model.ProductForm;
 import com.fengmi.demo.service.CodeRuleService;
 import com.fengmi.demo.service.PNService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,15 @@ public class PNController {
     public String addPN(PN pn) {
         pnService.insertPN(pn);
         return "redirect:showAllPN";
+    }
+
+    @RequestMapping(value = "/toCreateNew")
+    public String toCreateNew(Model model){
+        model.addAttribute("pn_code_rule", codeService.queryCodeRule("PN"));
+        model.addAttribute("sku_code_rule", codeService.queryCodeRule("SKU"));
+        model.addAttribute("mn_code_rule", codeService.queryCodeRule("MN"));
+        model.addAttribute("pid_code_rule", codeService.queryCodeRule("PID"));
+        model.addAttribute("form_product", new ProductForm());
+        return "product_form";
     }
 }
