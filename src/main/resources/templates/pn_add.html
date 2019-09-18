@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PN Add</title>
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['jquery', 'layer', 'form', 'element'], function () {
+    });
+</script>
+
+<div class="layui-bg-gray">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a th:text="${#authentication.name}"></a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/getAllProduct}">主页</a>
+                </dd>
+                <dd><a th:href="@{/logout}">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md5 layui-col-md-offset4">
+            <label for="id_generate" style="font-size: 27px">项目代号:</label>
+            <label id="id_generate" style="font-size: 30px" th:text="-------"></label>
+        </div>
+
+    </div>
+    <div style="text-align: center;align-self: center;">
+        <table class="layui-table" th:border="1">
+            <thead>
+            <tr>
+                <td style="width: 150px">编码索引</td>
+                <td th:each="map :${code_rule}" th:text="${map.key}"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="width: 150px">编码元素</td>
+                <td th:each="map :${code_rule}" th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                    <select th:name="select_code" th:onchange="javascript:onCodeSelected([[${map.key}]])">
+                        <option>-请选择编码元素-</option>
+                        <option th:each="list :${map.value}" th:value="${list.codeData}"
+                                th:text="${list.codeDesc}"></option>
+                    </select>
+                </td>
+                <td th:each="map :${code_rule}" th:if="${#strings.contains(map.getValue().get(0).codeData,'-')}">
+                    <input th:name="input_code" th:oninput="javascript:onCodeInput([[${map.key}]])"
+                           th:value="${map.getValue().get(0).codeData}"
+                           th:text="${map.getValue().get(0).codeDesc}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6 layui-col-md-offset3">
+            <form class="layui-form" th:id="pnForm" th:action="@{/addPN}" method="post" th:object="${pn}">
+                <input type="hidden" th:id="pn_data" th:field="${pn.pn_data}"/>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">项目简称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" th:id="pn_simple_name" required placeholder="项目简称" autocomplete="off"
+                               class="layui-input" th:value="项目简称" th:field="${pn.pn_simple_name}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">项目描述</label>
+                    <div class="layui-input-block">
+                        <input th:id="pn_desc" required placeholder="项目描述" autocomplete="off"
+                               class="layui-input" th:value="项目描述" th:field="${pn.pn_desc}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" value="提交" class="layui-btn"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    function onCodeSelected(index) {
+        var lab = document.getElementById("id_generate");
+        var code = lab.innerText;
+
+        var i = document.getElementsByName("select_code")[index].selectedIndex;
+        var data = document.getElementsByName("select_code")[index][i].value;
+        switch (index) {
+            case 0:
+                code = data + code.substring(1, 7);
+                break;
+            case 1:
+                code = code.substring(0, 1) + data + code.substring(3, 7);
+                break;
+            case 2:
+                code = code.substring(0, 3) + data + code.substring(4, 7);
+                break;
+            case 3:
+                code = code.substring(0, 4) + data + code.substring(5, 7);
+                break;
+            case 4:
+                code = code.substring(0, 5) + data + code.substring(6, 7);
+                break;
+            case 5:
+                code = code.substring(0, 6) + data;
+                break;
+        }
+        lab.innerText = code;
+        document.getElementById("pn_data").valueOf().value = code;
+    }
+
+</script>
+</html>

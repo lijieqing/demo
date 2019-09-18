@@ -33,7 +33,7 @@ public class ProductController {
 
     @RequestMapping("/")
     public String logIn() {
-        return "redirect:getAllProduct";
+        return "redirect:showAllPN";
     }
 
     @RequestMapping("/getAllProduct")
