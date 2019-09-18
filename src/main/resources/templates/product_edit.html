@@ -20,7 +20,7 @@
         <li class="layui-nav-item">
             <a th:text="${#authentication.name}"></a>
             <dl class="layui-nav-child">
-                <dd><a th:href="@{/getAllProduct}">主页</a>
+                <dd><a th:href="@{/showAllPN}">主页</a>
                 </dd>
                 <dd><a th:href="@{/logout}">退出</a></dd>
             </dl>
@@ -29,22 +29,12 @@
     <h1> 产品信息编辑 </h1>
     <table class="layui-table">
         <tr>
-            <td width="100" style="text-align: right">PID</td>
-            <td width="190" th:text="${product.pid.pid_data}"></td>
-            <td width="100" style="text-align: right">MN</td>
-            <td width="190" th:text="${product.mn.mn_data}"></td>
-            <td width="100" style="text-align: right">SKU</td>
-            <td width="190" th:text="${product.sku.sku_data}"></td>
+            <td width="100" style="text-align: right">内部产品编码</td>
+            <td width="190" th:text="${product.pd.detail_pn}"></td>
             <td width="100" style="text-align: right">创建日期</td>
             <td width="190" th:text="${product.pid.pid_create_date}"></td>
-        </tr>
-        <tr>
             <td width="100" style="text-align: right">产品名称</td>
             <td width="190" th:text="${product.pid.market_name}"></td>
-            <td width="100" style="text-align: right">MN名称</td>
-            <td width="190" th:text="${product.mn.mn_name}"></td>
-            <td width="100" style="text-align: right">SKU名称</td>
-            <td width="190" th:text="${product.sku.sku_name}"></td>
             <td width="100" style="text-align: right">首台SN</td>
             <td width="190" th:text="${product.pid.pid_sn}"></td>
         </tr>
@@ -59,9 +49,50 @@
         <input type="hidden" th:id="info_detail" th:field="${product.info_detail}" th:value="${product.info_detail}"/>
         <input type="hidden" th:id="pd_info_detail" th:field="${product.pd.detail_id}"
                th:value="${product.pd.detail_id}"/>
+        <input type="hidden" th:id="pd_info_pn" th:field="${product.pd.detail_pn}"
+               th:value="${product.pd.detail_pn}"/>
         <input type="hidden" th:id="product_pid" th:field="${product.product_pid}" th:value="${product.product_pid}"/>
         <input type="hidden" th:id="product_sku" th:field="${product.product_sku}" th:value="${product.product_sku}"/>
-        <input type="hidden" th:id="product_mn" th:field="${product.product_mn}" th:value="${product.product_mn}"/>
+
+        <input type="hidden" th:id="pid_id" th:field="${product.pid.pid_id}" th:value="${product.pid.pid_id}"/>
+        <input type="hidden" th:id="pid_category" th:field="${product.pid.pid_category}" th:value="${product.pid.pid_category}"/>
+        <input type="hidden" th:id="pid_date" th:field="${product.pid.pid_create_date}" th:value="${product.pid.pid_create_date}"/>
+        <input type="hidden" th:id="pid_remark" th:field="${product.pid.pid_remark}" th:value="${product.pid.pid_remark}"/>
+        <input type="hidden" th:id="pid_sn" th:field="${product.pid.pid_sn}" th:value="${product.pid.pid_sn}"/>
+        <input type="hidden" th:id="pid_brand" th:field="${product.pid.pid_brand}" th:value="${product.pid.pid_brand}"/>
+
+        <input type="hidden" th:id="sku_id" th:field="${product.sku.sku_id}" th:value="${product.sku.sku_id}"/>
+        <input type="hidden" th:id="sku_country" th:field="${product.sku.sku_country}" th:value="${product.sku.sku_country}"/>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">PID</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="pid_data" required autocomplete="off"
+                       class="layui-input" th:value="${product.pid.pid_data}" th:field="${product.pid.pid_data}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="pid_name" required autocomplete="off"
+                       class="layui-input" th:value="${product.pid.market_name}" th:field="${product.pid.market_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">SKU</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="sku_data" required autocomplete="off"
+                       class="layui-input" th:value="${product.sku.sku_data}" th:field="${product.sku.sku_data}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">SKU 名称</label>
+            <div class="layui-input-inline">
+                <input type="text" th:id="detail_69" required autocomplete="off"
+                       class="layui-input" th:value="${product.sku.sku_name}" th:field="${product.sku.sku_name}">
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">69码</label>
             <div class="layui-input-inline">
@@ -93,19 +124,11 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">光机 SN</label>
+            <label class="layui-form-label">光峰料号</label>
             <div class="layui-input-inline">
                 <input type="text" th:id="detail_proj_sn" required autocomplete="off"
                        class="layui-input" th:value="${product.pd.detail_proj_sn}"
                        th:field="${product.pd.detail_proj_sn}">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">内部产品编码</label>
-            <div class="layui-input-inline">
-                <input type="text" th:id="detail_pn" autocomplete="off"
-                       class="layui-input" th:value="${product.pd.detail_pn}"
-                       th:field="${product.pd.detail_pn}">
             </div>
         </div>
         <div class="layui-form-item">

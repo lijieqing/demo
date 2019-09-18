@@ -36,7 +36,7 @@ public class PNController {
             Product p = productService.findProductByID(pn.getPn_product_info());
             pn.setProduct(p);
 
-            System.out.println("--  query all PN  --"+pn);
+            System.out.println("--  query all PN  --" + pn);
         }
         return "pn";
     }
@@ -66,6 +66,17 @@ public class PNController {
         model.addAttribute("color_list", productService.findAllColor());
         model.addAttribute("form_product", new ProductForm());
         return "product_form";
+    }
+
+    @RequestMapping("/deletePN")
+    public String deletePN(int id) {
+        PN pn = pnService.getPNByID(id);
+        if (pn != null) {
+            productService.deleteProductByID(pn.getPn_product_info());
+            pnService.deletePNByID(pn.getPn_id());
+            return "redirect:showAllPN";
+        }
+        return "error";
     }
 
     private boolean insertProduct(ProductForm productForm) {

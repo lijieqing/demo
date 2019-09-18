@@ -57,10 +57,12 @@ public class ProductController {
 
     @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
     public String updateProductDetail(Product product) {
-        System.out.println("------------------"+product.toString());
+        System.out.println("------------------" + product.toString());
 
         productService.updateProduct(product.getPd());
-        return "redirect:getAllProduct";
+        pidService.updatePID(product.getPid());
+        skuService.updateSKU(product.getSku());
+        return "redirect:showAllPN";
     }
 
     @RequestMapping("/toProductPIDAdd")

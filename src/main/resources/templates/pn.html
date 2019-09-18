@@ -28,10 +28,9 @@
                     '<tr><td width="100" style="text-align: right">产品类型</td><td width="190">' + pnList[clickIndex].product.pid.pid_category_desc + '</td><td width="100" style="text-align: right">SKU</td><td width="190">' + pnList[clickIndex].product.sku.sku_data + '</td></tr>' +
                     '<tr><td width="100" style="text-align: right">SKU名称</td><td width="190">' + pnList[clickIndex].product.sku.sku_name + '</td><td width="100" style="text-align: right">销售地区</td><td width="190">' + pnList[clickIndex].product.sku.sku_country + '</td></tr>' +
                     '<tr><td width="100" style="text-align: right">内部产品编码</td><td width="190">' + pnList[clickIndex].product.pd.detail_pn  + '</td><td width="100" style="text-align: right">UIID</td><td width="190">' + pnList[clickIndex].product.pd.detail_uiid + '</td></tr>' +
-                    '<tr><td width="100" style="text-align: right">69码</td><td width="190">' + pnList[clickIndex].product.pd.detail_69 + '</td><td width="100" style="text-align: right">光机SN</td><td width="190">' + pnList[clickIndex].product.pd.detail_proj_sn + '</td></tr>' +
+                    '<tr><td width="100" style="text-align: right">69码</td><td width="190">' + pnList[clickIndex].product.pd.detail_69 + '</td><td width="100" style="text-align: right">光峰料号</td><td width="190">' + pnList[clickIndex].product.pd.detail_proj_sn + '</td></tr>' +
                     '<tr><td width="100" style="text-align: right">产品规格</td><td width="190">' + pnList[clickIndex].product.pd.detail_specification + '</td><td width="100" style="text-align: right">3C名称</td><td width="190">' + pnList[clickIndex].product.pd.detail_3c + '</td></tr>' +
                     '<tr><td width="100" style="text-align: right">合作商</td><td width="190">' + pnList[clickIndex].product.pd.detail_cooperation + '</td><td width="100" style="text-align: right">米家名称</td><td width="190">' + pnList[clickIndex].product.pd.detail_mi + '</td></tr>' +
-                    '<tr><td width="100" style="text-align: right">内部产品编码</td><td width="190">' + pnList[clickIndex].product.pd.detail_pn + '</td><td width="100" style="text-align: right"></td><td width="190"></td></tr>' +
                     '</table>'
                 , area: ['700px', '600px']
             });
@@ -77,7 +76,7 @@
                         th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
                 </button>
                 <a class="layui-btn"
-                   th:href="@{/toProductEdit(id=${pn.pn_id})}">编辑
+                   th:href="@{/toProductEdit(id=${pn.product.product_id})}">编辑
                 </a>
             </td>
             <td th:if="${#strings.contains(#authentication.authorities[0],'3')}">
@@ -90,10 +89,10 @@
                         th:onclick="javascript:detailClick([[${memberStat.index}]])">详情
                 </button>
                 <a class="layui-btn"
-                   th:href="@{/toProductEdit(id=${pn.pn_id})}">编辑
+                   th:href="@{/toProductEdit(id=${pn.product.product_id})}">编辑
                 </a>
                 <a class="layui-btn"
-                   th:href="@{/deleteProduct(id=${pn.pn_id})}">删除
+                   th:href="@{/deletePN(id=${pn.pn_id})}">删除
                 </a>
             </td>
         </tr>

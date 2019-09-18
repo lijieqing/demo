@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fengmi.demo.mapper.PNMapper">
     <select id="getAllPN" resultType="com.fengmi.demo.model.PN">
-        select  * from tb_product_pn;
+        select  * from tb_product_pn where pn_status=0;
     </select>
     <select id="getPNByData" resultType="com.fengmi.demo.model.PN" parameterType="java.lang.String">
-        select * from tb_product_pn as pn where pn.pn_data like #{data};
+        select * from tb_product_pn as pn where pn.pn_data like #{data} and pn_status=0;
     </select>
-    <select id="getPNByID" resultType="com.fengmi.demo.model.PN" parameterType="java.lang.String">
-        select * from tb_product_pn as pn where pn.pn_id=#{id};
+    <select id="getPNByID" resultType="com.fengmi.demo.model.PN" parameterType="int">
+        select * from tb_product_pn as pn where pn.pn_id=#{id} and pn_status=0;
     </select>
     <insert id="insertPN" parameterType="com.fengmi.demo.model.PN" useGeneratedKeys="true" keyProperty="pn_id">
-        insert into tb_product_pn values (null ,#{pn_data},#{pn_simple_name},#{pn_desc},#{pn_product_info});
+        insert into tb_product_pn values (null ,#{pn_data},#{pn_simple_name},#{pn_desc},#{pn_product_info},0);
     </insert>
-    <delete id="deletePNByID" parameterType="int">
-        delete from tb_product_pn where pn_id=#{id}
-    </delete>
+    <update id="deletePNByID" parameterType="int">
+        update tb_product_pn set pn_status=1 where pn_id=#{id};
+    </update>
 
 </mapper>
