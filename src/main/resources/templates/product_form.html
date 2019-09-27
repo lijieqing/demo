@@ -43,13 +43,13 @@
                 <th rowspan="2">内部项目型号</th>
                 <th rowspan="2">
                     <label id="pn_generate" style="font-size: 30px;color: #5FB878;width: 300px"
-                           th:text="-------"></label>
+                           th:text="OOOOOOO"></label>
                 </th>
-                <th style="width: 200px">编码组成</th>
-                <th th:each="map :${pn_code_rule}" th:text="${map.key}"></th>
+                <th>产品型号编码组成</th>
+                <th th:each="map :${pn_code_rule}" th:text="${pn_code_rule_desc.get(map.key)}"></th>
             </tr>
             <tr>
-                <th style="width: 200px">编码元素</th>
+                <th>编码元素</th>
                 <th th:each="map :${pn_code_rule}"
                     th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
                     <select th:name="select_code_pn" th:onchange="javascript:onPNCodeSelected([[${map.key}]])">
@@ -79,13 +79,13 @@
                 <th rowspan="2">PID生成</th>
                 <th rowspan="2">
                     <label id="pid_generate" style="font-size: 30px;color: #5FB878;width: 200px"
-                           th:text="-----"></label>
+                           th:text="OOOOO"></label>
                 </th>
-                <th style="width: 200px">PID编码索引</th>
-                <th th:each="map :${pid_code_rule}" th:text="${map.key}"></th>
+                <th>PID编码组成</th>
+                <th th:each="map :${pid_code_rule}" th:text="${pid_code_rule_desc.get(map.key)}"></th>
             </tr>
             <tr>
-                <th style="width: 200px">编码元素</th>
+                <th>编码元素</th>
                 <th th:each="map :${pid_code_rule}"
                     th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
                     <select th:name="select_code_pid"
@@ -117,13 +117,13 @@
                 <th rowspan="2">SKU生成</th>
                 <th rowspan="2">
                     <label id="sku_generate" style="font-size: 30px;color: #5FB878"
-                           th:text="-------------"></label>
+                           th:text="OOOOOOOOOOOOO"></label>
                 </th>
-                <th style="width: 150px">SKU编码索引</th>
-                <th th:each="map :${sku_code_rule}" th:text="${map.key}"></th>
+                <th>SKU编码组成</th>
+                <th th:each="map :${sku_code_rule}" th:text="${sku_code_rule_desc.get(map.key)}"></th>
             </tr>
             <tr>
-                <th style="width: 150px">编码元素</th>
+                <th>编码元素</th>
                 <th th:each="map :${sku_code_rule}"
                     th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}">
                     <select th:name="select_code_sku"
