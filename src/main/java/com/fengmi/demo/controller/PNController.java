@@ -14,6 +14,7 @@ import java.util.*;
  * @author lijie
  * @create 2019-09-17 15:01
  **/
+@SuppressWarnings("Duplicates")
 @Controller
 public class PNController {
     @Autowired
@@ -97,6 +98,34 @@ public class PNController {
             return "redirect:showAllPN";
         }
         return "error";
+    }
+
+    @RequestMapping("/toCodeRule")
+    public String toCodeRule(Model model) {
+        model.addAttribute("pid_code_rule", codeService.queryCodeRule("PID"));
+        model.addAttribute("pid_code_rule_desc", Arrays.asList(
+                "立项年份",
+                "产品线",
+                "按照立项时间进行编号，从“1”计数"));
+        model.addAttribute("pn_code_rule", codeService.queryCodeRule("PN"));
+        model.addAttribute("pn_code_rule_desc", Arrays.asList(
+                "产品系列&分类",
+                "投影：亮度标识\n" + "幕布：尺寸\n" + "支架：高度",
+                "投影：分辨率\n" + "幕布：材质\n" + "支架：0，保留",
+                "品牌",
+                "销售区域",
+                "渠道"));
+        model.addAttribute("sku_code_rule", codeService.queryCodeRule("SKU"));
+        model.addAttribute("sku_code_rule_desc", Arrays.asList(
+                "产品品牌",
+                "产品名称",
+                "年份",
+                "渠道",
+                "衍生",
+                "尺寸",
+                "颜色",
+                "销售国别"));
+        return "code_rule";
     }
 
     private boolean insertProduct(ProductForm productForm) {

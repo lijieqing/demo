@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>编码管理</title>
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
+    <link rel="stylesheet" th:href="@{/local/layui/css/modules/layer/default/layer.css}"
+          href="/local/layui/css//modules/layer/default/layer.css"/>
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
+    });
+
+    function detailClick(index) {
+
+    }
+</script>
+<ul class="layui-nav">
+    <li class="layui-nav-item">
+        <a th:text="${#authentication.name}"></a>
+        <dl class="layui-nav-child">
+            <dd><a th:href="@{/showAllPN}">主页</a>
+            </dd>
+            <dd><a th:href="@{/logout}">退出</a></dd>
+        </dl>
+    </li>
+</ul>
+
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        <li class="layui-this">PID 编码信息</li>
+        <li>SKU 编码信息</li>
+        <li>PN 编码信息</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show">
+            <ul class="layui-nav" lay-filter="" style="width: 500px">
+                <li class="layui-nav-item" th:each="map :${pid_code_rule}">
+                    <a th:text="${pid_code_rule_desc.get(map.key)}"></a>
+                    <dl class="layui-nav-child">
+                        <dd th:each="list :${map.value}">
+                            <a th:text="${list.codeDesc}"></a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-tab-item">
+            <ul class="layui-nav" lay-filter="" style="width: 500px">
+                <li class="layui-nav-item" th:each="map :${sku_code_rule}">
+                    <a th:text="${sku_code_rule_desc.get(map.key)}"></a>
+                    <dl class="layui-nav-child">
+                        <dd th:each="list :${map.value}">
+                            <a th:text="${list.codeDesc}"></a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-tab-item">
+            <ul class="layui-nav" lay-filter="" style="width: 500px">
+                <li class="layui-nav-item" th:each="map :${pn_code_rule}">
+                    <a th:text="${pn_code_rule_desc.get(map.key)}"></a>
+                    <dl class="layui-nav-child">
+                        <dd th:each="list :${map.value}">
+                            <a th:text="${list.codeDesc}"></a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

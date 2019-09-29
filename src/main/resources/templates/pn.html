@@ -49,6 +49,8 @@
             <dl class="layui-nav-child">
                 <dd th:unless="${#strings.contains(#authentication.authorities[0],'3')}"><a
                         th:href="@{/toCreateNew}">新建项目</a></dd>
+                <dd th:unless="${#strings.contains(#authentication.authorities[0],'3')}"><a
+                        th:href="@{/toCodeRule}">编码规则</a></dd>
                 <dd><a th:href="@{/logout}">退出</a></dd>
             </dl>
         </li>
