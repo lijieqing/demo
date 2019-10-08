@@ -15,12 +15,38 @@
 <script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
         th:inline="javascript"></script>
 <script type="text/javascript" th:inline="javascript">
+    var codePosition;
     //我们强烈推荐你在代码最外层把需要用到的模块先加载
     layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
+        $(document).on('click', '.btn_edit_pid', function () {
+            layer.open({
+                title: '<h3>pid</h3>'
+                , content:
+                    'hello '+codePosition
+                , area: ['700px', '600px']
+            });
+        });
+        $(document).on('click', '.btn_edit_sku', function () {
+            layer.open({
+                title: '<h3>sku</h3>'
+                , content:
+                    'hello '+codePosition
+                , area: ['700px', '600px']
+            });
+        });
+        $(document).on('click', '.btn_edit_pn', function () {
+            layer.open({
+                title: '<h3>pn</h3>'
+                , content:
+                    'hello '+codePosition
+                , area: ['700px', '600px']
+            });
+        });
+
     });
 
-    function detailClick(index) {
-
+    function pidEditClick(position) {
+        codePosition = position;
     }
 </script>
 <ul class="layui-nav">
@@ -45,7 +71,14 @@
             <ul class="layui-nav" lay-filter="" style="width: 500px">
                 <li class="layui-nav-item" th:each="map :${pid_code_rule}">
                     <a th:text="${pid_code_rule_desc.get(map.key)}"></a>
+
                     <dl class="layui-nav-child">
+                        <dd>
+                            <button th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}"
+                                    class="layui-btn btn_edit_pid" name="btn_edit_pid" style="float: contour"
+                                    th:onclick="javascript:pidEditClick([[${map.key}]])">详情
+                            </button>
+                        </dd>
                         <dd th:each="list :${map.value}">
                             <a th:text="${list.codeDesc}"></a>
                         </dd>
@@ -54,10 +87,13 @@
             </ul>
         </div>
         <div class="layui-tab-item">
-            <ul class="layui-nav" lay-filter="" style="width: 500px">
+            <ul class="layui-nav" lay-filter="" style="width: 1000px">
                 <li class="layui-nav-item" th:each="map :${sku_code_rule}">
                     <a th:text="${sku_code_rule_desc.get(map.key)}"></a>
                     <dl class="layui-nav-child">
+                        <button class="layui-btn btn_edit_sku" name="btn_edit_sku"
+                                th:onclick="javascript:pidEditClick([[${map.key}]])">详情
+                        </button>
                         <dd th:each="list :${map.value}">
                             <a th:text="${list.codeDesc}"></a>
                         </dd>
@@ -66,10 +102,13 @@
             </ul>
         </div>
         <div class="layui-tab-item">
-            <ul class="layui-nav" lay-filter="" style="width: 500px">
+            <ul class="layui-nav" lay-filter="" style="width: 1500px">
                 <li class="layui-nav-item" th:each="map :${pn_code_rule}">
                     <a th:text="${pn_code_rule_desc.get(map.key)}"></a>
                     <dl class="layui-nav-child">
+                        <button class="layui-btn btn_edit_pn" name="btn_edit_pn"
+                                th:onclick="javascript:pidEditClick([[${map.key}]])">详情
+                        </button>
                         <dd th:each="list :${map.value}">
                             <a th:text="${list.codeDesc}"></a>
                         </dd>
