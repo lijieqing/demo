@@ -5,6 +5,8 @@ package com.fengmi.demo.model;
  * @create 2019-06-20 17:37
  **/
 public class CodeRule {
+    private Integer code_rule_id;
+    private Integer code_rule_type;
     private Integer code_rule_index;
     private Integer code_rule_len;
     private String code_rule_data;
@@ -76,5 +78,37 @@ public class CodeRule {
 
     public void setCode_simple_name(String code_simple_name) {
         this.code_simple_name = code_simple_name;
+    }
+
+    public Integer getCode_rule_id() {
+        return code_rule_id;
+    }
+
+    public void setCode_rule_id(Integer code_rule_id) {
+        this.code_rule_id = code_rule_id;
+    }
+
+    public Integer getCode_rule_type() {
+        return code_rule_type;
+    }
+
+    public void setCode_rule_type(Integer code_rule_type) {
+        this.code_rule_type = code_rule_type;
+    }
+
+    @Override
+    public String toString() {
+        return "CodeRule{" +
+                "code_rule_id=" + code_rule_id +
+                ", code_rule_type=" + code_rule_type +
+                ", code_rule_index=" + code_rule_index +
+                ", code_rule_len=" + code_rule_len +
+                ", code_rule_data='" + code_rule_data + '\'' +
+                ", code_rule_desc='" + code_rule_desc + '\'' +
+                ", code_total_len=" + code_total_len +
+                ", code_desc='" + code_desc + '\'' +
+                ", code_full_name='" + code_full_name + '\'' +
+                ", code_simple_name='" + code_simple_name + '\'' +
+                '}';
     }
 }

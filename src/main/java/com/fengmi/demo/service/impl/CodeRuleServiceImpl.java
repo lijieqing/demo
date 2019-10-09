@@ -30,9 +30,21 @@ public class CodeRuleServiceImpl implements CodeRuleService {
             if (result.get(key) == null) {
                 result.put(key, new ArrayList<>());
             }
-            CodeMap map = new CodeMap(codeRule.getCode_rule_data(), codeRule.getCode_rule_desc());
+            CodeMap map = new CodeMap(
+                    codeRule.getCode_rule_data(),
+                    codeRule.getCode_rule_desc(),
+                    codeRule.getCode_rule_len(),
+                    codeRule.getCode_rule_index(),
+                    codeRule.getCode_rule_type());
             result.get(key).add(map);
         }
         return result;
+    }
+
+    @Override
+    public CodeRule insertCodeRule(CodeRule cr) {
+        codeRuleMapper.insertCodeRule(cr);
+        System.out.println(cr.toString());
+        return cr;
     }
 }

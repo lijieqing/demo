@@ -5,7 +5,9 @@
             parameterType="java.lang.String"
             resultType="com.fengmi.demo.model.CodeRule">
         select
+            r.code_rule_id as code_rule_id,
             r.code_rule_index  as code_rule_index,
+            r.code_rule_type as code_rule_type,
             r.code_rule_len    as code_rule_len,
             t.code_total_len   as code_total_len,
             r.code_rule_data   as code_rule_data,
@@ -22,4 +24,13 @@
         and
             t.code_type_id = r.code_rule_type;
     </select>
+    <insert id="insertCodeRule"
+            parameterType="com.fengmi.demo.model.CodeRule"
+            useGeneratedKeys="true"
+            keyProperty="code_rule_id">
+        insert into
+            tb_code_rule
+        values
+        (null ,#{code_rule_type},#{code_rule_index},#{code_rule_len},#{code_rule_data},#{code_rule_desc});
+    </insert>
 </mapper>

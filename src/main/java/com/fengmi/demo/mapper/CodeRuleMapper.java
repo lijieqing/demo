@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface CodeRuleMapper {
     List<CodeRule> queryCodeRule(String codeType);
+
+    Integer insertCodeRule(CodeRule cr);
 }

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Add</title>
+    <link rel="stylesheet" th:href="@{/local/layui/css/layui.css}" href="/local/layui/css/layui.css"/>
+    <link rel="stylesheet" th:href="@{/local/layui/css/modules/layer/default/layer.css}"
+          href="/local/layui/css//modules/layer/default/layer.css"/>
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script th:src="@{/local/layui/layui.js}" src="/local/layui/layui.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script th:src="@{/local/layui/lay/modules/layer.js}" src="/local/layui/lay/modules/layer.js" type="text/javascript"
+        th:inline="javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+    var codePosition;
+    //我们强烈推荐你在代码最外层把需要用到的模块先加载
+    layui.use(['table', 'jquery', 'layer', 'form', 'element'], function () {
+
+    });
+
+</script>
+<ul class="layui-nav">
+    <li class="layui-nav-item">
+        <a th:text="${#authentication.name}"></a>
+        <dl class="layui-nav-child">
+            <dd><a th:href="@{/showAllPN}">主页</a>
+            </dd>
+            <dd><a th:href="@{/toCodeRule}">编码规则</a>
+            </dd>
+            <dd><a th:href="@{/logout}">退出</a></dd>
+        </dl>
+    </li>
+</ul>
+
+<div class="layui-container center-pill">
+    <div class="layui-row">
+        <table class="layui-table">
+            <tr>
+                <td>编码类型</td>
+                <td>编码位置</td>
+                <td>编码长度</td>
+            </tr>
+            <tr>
+                <td th:text="${codeType}"></td>
+                <td th:text="${codeDesc.get(code_rule_instance.code_rule_index)}"></td>
+                <td th:text="${code_rule_instance.code_rule_len}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="layui-row">
+        <h2>已存在规则如下</h2>
+        <table class="layui-table">
+            <tr>
+                <td>序号</td>
+                <td>编码类型</td>
+                <td>编码位置</td>
+                <td>编码长度</td>
+                <td>编码数据</td>
+                <td>数据描述</td>
+            </tr>
+            <tr th:each="code,memberStat:${codeDataList}">
+                <td th:text="${memberStat.index+1}"></td>
+                <td th:text="${codeType}"></td>
+                <td th:text="${codeDesc.get(code_rule_instance.code_rule_index)}"></td>
+                <td th:text="${code_rule_instance.code_rule_len}"></td>
+                <td th:text="${code.codeData}"></td>
+                <td th:text="${code.codeDesc}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="layui-row">
+        <h2>新增规则：</h2>
+        <form class="layui-form" th:action="@{/addCodeRule}" th:object="${code_rule_instance}" th:method="post">
+            <input type="hidden" th:id="code_rule_index" th:field="${code_rule_instance.code_rule_index}"/>
+            <input type="hidden" th:id="code_rule_type" th:field="${code_rule_instance.code_rule_type}"/>
+            <input type="hidden" th:id="code_rule_len" th:field="${code_rule_instance.code_rule_len}"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">编码数据</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:maxlength="${code_rule_instance.code_rule_len}" th:id="code_rule_data"
+                           required
+                           placeholder="编码数据"
+                           autocomplete="off"
+                           class="layui-input" th:value="编码数据" th:field="${code_rule_instance.code_rule_data}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">数据描述</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:id="code_rule_desc" required placeholder="数据描述" autocomplete="off"
+                           class="layui-input" th:value="数据描述" th:field="${code_rule_instance.code_rule_desc}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="submit" class="layui-btn"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

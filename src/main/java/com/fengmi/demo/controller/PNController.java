@@ -128,6 +128,55 @@ public class PNController {
         return "code_rule";
     }
 
+    @RequestMapping(value = "/toCodeRuleAdd")
+    public String toCodeRuleAdd(Model model, String type, int index) {
+        CodeRule cr = new CodeRule();
+        int codeLen = codeService.queryCodeRule(type).get(index).get(0).getCodeLength();
+        int codeType = codeService.queryCodeRule(type).get(index).get(0).getCodeType();
+        cr.setCode_rule_index(index);
+        cr.setCode_rule_len(codeLen);
+        cr.setCode_rule_type(codeType);
+
+        System.out.println("type=" + codeType + ",index=" + index + ", code len is " + codeLen);
+        model.addAttribute("code_rule_instance", cr);
+        model.addAttribute("codeType", type);
+
+        Map<String, List<String>> codeDesc = new HashMap<>();
+
+        codeDesc.put("PID", Arrays.asList(
+                "立项年份",
+                "产品线",
+                "按照立项时间进行编号，从“1”计数"));
+        codeDesc.put("PN", Arrays.asList(
+                "产品系列&分类",
+                "投影：亮度标识\n" + "幕布：尺寸\n" + "支架：高度",
+                "投影：分辨率\n" + "幕布：材质\n" + "支架：0，保留",
+                "品牌",
+                "销售区域",
+                "渠道"));
+        codeDesc.put("SKU", Arrays.asList(
+                "产品品牌",
+                "产品名称",
+                "年份",
+                "渠道",
+                "衍生",
+                "尺寸",
+                "颜色",
+                "销售国别"));
+        model.addAttribute("codeDesc", codeDesc.get(type));
+
+        Map<Integer, List<CodeMap>> codeData = codeService.queryCodeRule(type);
+        model.addAttribute("codeDataList", codeData.get(index));
+        return "code_rule_add";
+    }
+
+    @RequestMapping(value = "/addCodeRule", method = RequestMethod.POST)
+    public String addCodeRule(CodeRule cr) {
+        System.out.println(cr.toString());
+        codeService.insertCodeRule(cr);
+        return "redirect:toCodeRule";
+    }
+
     private boolean insertProduct(ProductForm productForm) {
         SKU sku = productForm.getSku();
         PID pid = productForm.getPid();
