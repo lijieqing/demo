@@ -10,4 +10,6 @@ public interface CodeRuleMapper {
     List<CodeRule> queryCodeRule(String codeType);
 
     Integer insertCodeRule(CodeRule cr);
+
+    Integer deleteCodeRule(int type,int index,String data);
 }

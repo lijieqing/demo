@@ -22,7 +22,9 @@
                                 from tb_code_type as t
                                 where t.code_simple_name = #{codeType})
         and
-            t.code_type_id = r.code_rule_type;
+            t.code_type_id = r.code_rule_type
+        and
+            r.code_rule_status = 0;
     </select>
     <insert id="insertCodeRule"
             parameterType="com.fengmi.demo.model.CodeRule"
@@ -31,6 +33,19 @@
         insert into
             tb_code_rule
         values
-        (null ,#{code_rule_type},#{code_rule_index},#{code_rule_len},#{code_rule_data},#{code_rule_desc});
+        (null ,#{code_rule_type},#{code_rule_index},#{code_rule_len},#{code_rule_data},#{code_rule_desc},0);
     </insert>
+
+    <update id="deleteCodeRule">
+        update
+            tb_code_rule
+        set
+            code_rule_status=1
+        where
+            code_rule_index=#{index}
+        and
+            code_rule_type=#{type}
+        and
+            code_rule_data=#{data};
+    </update>
 </mapper>

@@ -174,7 +174,43 @@ public class PNController {
     public String addCodeRule(CodeRule cr) {
         System.out.println(cr.toString());
         codeService.insertCodeRule(cr);
-        return "redirect:toCodeRule";
+        int index = cr.getCode_rule_index();
+        int type = cr.getCode_rule_type();
+        String codeType = "";
+        switch (type) {
+            case 1:
+                codeType = "PN";
+                break;
+            case 2:
+                codeType = "SKU";
+                break;
+            case 4:
+                codeType = "PID";
+                if (index == 1) {
+                    pidService.insertCategory(Integer.parseInt(cr.getCode_rule_data()), cr.getCode_rule_desc());
+                }
+                break;
+        }
+        return "redirect:toCodeRuleAdd?type=" + codeType + "&index=" + index;
+    }
+
+    @RequestMapping("/deleteCode")
+    public String deleteCode(int type, int index, String data) {
+        System.out.println("type = " + type + ", index = " + index + ", data = " + data);
+        codeService.deleteCodeRule(type, index, data);
+        String codeType = "";
+        switch (type) {
+            case 1:
+                codeType = "PN";
+                break;
+            case 2:
+                codeType = "SKU";
+                break;
+            case 4:
+                codeType = "PID";
+                break;
+        }
+        return "redirect:toCodeRuleAdd?type=" + codeType + "&index=" + index;
     }
 
     private boolean insertProduct(ProductForm productForm) {

@@ -52,7 +52,7 @@
                         <dd>
                             <a th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}"
                                class="layui-btn"
-                               th:href="@{/toCodeRuleAdd(type='PID',index=${map.key})}">新增
+                               th:href="@{/toCodeRuleAdd(type='PID',index=${map.key})}">管理
                             </a>
                         </dd>
                         <dd th:each="list :${map.value}">
@@ -70,7 +70,7 @@
                         <dd>
                             <a th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}"
                                class="layui-btn"
-                               th:href="@{/toCodeRuleAdd(type='SKU',index=${map.key})}">新增
+                               th:href="@{/toCodeRuleAdd(type='SKU',index=${map.key})}">管理
                             </a>
                         </dd>
                         <dd th:each="list :${map.value}">
@@ -88,7 +88,7 @@
                         <dd>
                             <a th:unless="${#strings.contains(map.getValue().get(0).codeData,'-')}"
                                class="layui-btn"
-                               th:href="@{/toCodeRuleAdd(type='PN',index=${map.key})}">新增
+                               th:href="@{/toCodeRuleAdd(type='PN',index=${map.key})}">管理
                             </a>
                         </dd>
                         <dd th:each="list :${map.value}">

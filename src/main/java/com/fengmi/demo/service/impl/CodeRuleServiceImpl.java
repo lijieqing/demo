@@ -47,4 +47,9 @@ public class CodeRuleServiceImpl implements CodeRuleService {
         System.out.println(cr.toString());
         return cr;
     }
+
+    @Override
+    public Integer deleteCodeRule(int type, int index, String data) {
+        return codeRuleMapper.deleteCodeRule(type, index, data);
+    }
 }

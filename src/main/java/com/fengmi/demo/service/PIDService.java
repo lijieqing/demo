@@ -19,4 +19,6 @@ public interface PIDService {
     List<PID> queryPIDByData(String data);
 
     Integer deletePID(int id);
+
+    Integer insertCategory(int id,String name);
 }

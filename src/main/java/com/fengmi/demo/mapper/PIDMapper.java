@@ -21,4 +21,6 @@ public interface PIDMapper {
     List<Category> getAllCategory();
 
     Integer deletePID(int id);
+
+    Integer insertCategory(int data,String name);
 }

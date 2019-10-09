@@ -30,6 +30,9 @@
     <insert id="insertPID" parameterType="com.fengmi.demo.model.PID" useGeneratedKeys="true" keyProperty="pid_id">
         insert into tb_product_pid values (null,#{pid_data},#{market_name},#{pid_category},#{pid_create_date},#{pid_remark},#{pid_sn},#{pid_brand})
     </insert>
+    <insert id="insertCategory">
+        insert into tb_product_category values (null,#{name},#{data});
+    </insert>
 
     <select id="getAllCategory" resultType="com.fengmi.demo.model.Category">
         select * from tb_product_category

@@ -61,6 +61,7 @@
                 <td>编码长度</td>
                 <td>编码数据</td>
                 <td>数据描述</td>
+                <td>操作</td>
             </tr>
             <tr th:each="code,memberStat:${codeDataList}">
                 <td th:text="${memberStat.index+1}"></td>
@@ -69,6 +70,16 @@
                 <td th:text="${code_rule_instance.code_rule_len}"></td>
                 <td th:text="${code.codeData}"></td>
                 <td th:text="${code.codeDesc}"></td>
+                <td>
+                    <a class="layui-btn"
+                       th:href="@{
+                            /deleteCode(
+                                type=${code_rule_instance.code_rule_type},
+                                index=${code_rule_instance.code_rule_index},
+                                data=${code.codeData}
+                                )
+                       }">删除</a>
+                </td>
             </tr>
         </table>
     </div>
@@ -98,7 +109,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <input type="submit" class="layui-btn"/>
+                    <input type="submit" class="layui-btn" th:value="新增"/>
                 </div>
             </div>
         </form>

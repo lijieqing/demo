@@ -55,4 +55,9 @@ public class PIDServiceImpl implements PIDService {
     public Integer deletePID(int id) {
         return pidMapper.deletePID(id);
     }
+
+    @Override
+    public Integer insertCategory(int id,String name) {
+        return pidMapper.insertCategory(id,name);
+    }
 }

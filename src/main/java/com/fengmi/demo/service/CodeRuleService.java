@@ -9,4 +9,5 @@ import java.util.Map;
 public interface CodeRuleService {
     Map<Integer, List<CodeMap>> queryCodeRule(String codeType);
     CodeRule insertCodeRule(CodeRule cr);
+    Integer deleteCodeRule(int type,int index,String data);
 }

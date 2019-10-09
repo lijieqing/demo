@@ -6,6 +6,7 @@ package com.fengmi.demo.model;
  **/
 public class Category {
     private Integer category_id;
+    private Integer category_data;
     private String category_name;
 
     public Integer getCategory_id() {
@@ -22,5 +23,13 @@ public class Category {
 
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
+    }
+
+    public Integer getCategory_data() {
+        return category_data;
+    }
+
+    public void setCategory_data(Integer category_data) {
+        this.category_data = category_data;
     }
 }
